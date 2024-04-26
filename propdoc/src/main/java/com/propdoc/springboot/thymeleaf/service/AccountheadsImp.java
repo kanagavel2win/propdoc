@@ -1,0 +1,237 @@
+package com.propdoc.springboot.thymeleaf.service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
+
+import com.propdoc.springboot.thymeleaf.dao.AccountHeadsRepository;
+import com.propdoc.springboot.thymeleaf.entity.Accountsheads;
+
+@Service
+@Transactional
+public class AccountheadsImp implements AccountheadsService {
+
+	@Autowired
+	AccountHeadsRepository activityRepo;
+	@Autowired
+	private JdbcTemplate JdbcTemplate;
+	
+	
+	@Override
+	public Accountsheads save(Accountsheads obj) {
+		return activityRepo.save(obj);
+	}
+
+	@Override
+	public Accountsheads findById(Integer id) {
+		Optional<Accountsheads> obj = activityRepo.findById(id);
+
+		Accountsheads bm = null;
+
+		if (obj.isPresent()) {
+			bm = obj.get();
+		} else {
+			throw new RuntimeException("Did find any records of  id " + id);
+		}
+		return bm;
+	}
+
+	@Override
+	public List<Accountsheads> findAll() {
+
+		return activityRepo.findAll();
+	}
+
+	@Override
+	public List<Accountsheads> saveall(List<Accountsheads> obj) {
+		
+		return activityRepo.saveAll(obj);
+	}
+
+	@Override
+	public List<Map<String, Object>> getAccountsReceivable() {
+		String sql = "SELECT COALESCE(sum(taxable_amount),0) as taxable_amount  FROM invoice_item_master;";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+
+	@Override
+	public List<Map<String, Object>> getAccountsPayable() {
+		String sql = "select COALESCE(sum(totalamount_amount),0) as totalamount_amount from (SELECT sum(totalamount_amount) as totalamount_amount  FROM branchpurchase_item_master union all SELECT sum(totalamount_amount)as totalamount_amount FROM projectpurchase_item_master)as t1;";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+
+	@Override
+	public List<Map<String, Object>> getGSTPayable() {
+		String sql = "SELECT COALESCE((sum(totalamount_amount) -sum(taxable_amount)),0) as taxamount  FROM invoice_item_master";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+
+	@Override
+	public List<Map<String, Object>> getGSTReceivable() {
+		String sql = "select COALESCE(sum(taxamount),0) as taxamount from (SELECT (sum(totalamount_amount) -sum(taxable_amount)) as taxamount  FROM branchpurchase_item_master union all SELECT (sum(totalamount_amount) -sum(taxable_amount)) as taxamount FROM projectpurchase_item_master)as t1;";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+
+	@Override
+	public List<Map<String, Object>> getSalesIncome() {
+		String sql = "SELECT COALESCE(sum(totalamount_amount),0) as totalamount_amount  FROM invoice_item_master;";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+
+	@Override
+	public List<Map<String, Object>> getInterestIncome() {
+		String sql = "SELECT COALESCE(sum(iamount),0) as income FROM accounts_income where icategory='Interest Income' ; ";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+
+	@Override
+	public List<Map<String, Object>> getOtherIncome() {
+		String sql = "SELECT COALESCE(sum(iamount),0) as income FROM accounts_income where icategory<>'Interest Income' ; ";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+
+	@Override
+	public List<Map<String, Object>> getinvoice_receipt_master() {
+		String sql = "SELECT COALESCE(sum(amount),0) as amount FROM invoice_receipt_master;";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+
+	@Override
+	public List<Map<String, Object>> getbranchpurchase_payment_master() {
+		String sql = "SELECT COALESCE(sum(amount),0) as amount FROM branchpurchase_payment_master;";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+
+	@Override
+	public List<Map<String, Object>> getprojectpurchase_payment_master() {
+		String sql = "SELECT COALESCE(sum(amount),0) as amount  FROM projectpurchase_payment_master;";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+
+	@Override
+	public List<Map<String, Object>> getaccounttransferdeposit(int searchid) {
+		String sql = " SELECT COALESCE(sum(t_amount),0) as t_amount FROM account_transfer where t_deposit_to ='"+ searchid +"'";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+
+	@Override
+	public List<Map<String, Object>> getaccounttransferwithdraw(int searchid) {
+		String sql = " SELECT COALESCE(sum(t_amount),0) as t_amount FROM account_transfer where twithdrawfrom ='"+ searchid +"'";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+
+	@Override
+	public List<Map<String, Object>> getaccountincomedeposit(int searchid) {
+		String sql = "SELECT COALESCE(sum(iamount),0) as amount FROM accounts_income where idepositto='"+ searchid +"'";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+
+	@Override
+	public List<Map<String, Object>> getaccountincomewithdraw(int searchid) {
+		String sql = "SELECT COALESCE(sum(iamount),0) as amount FROM accounts_income where ifrom ='"+ searchid +"'";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+
+	@Override
+	public List<Map<String, Object>> getbranchpurchase_payment_master(int searchid) {
+		String sql = "SELECT COALESCE(sum(amount),0) as amount FROM branchpurchase_payment_master where depitedfrom ='"+ searchid +"'";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+
+	@Override
+	public List<Map<String, Object>> getinvoice_receipt_master(int searchid) {
+		String sql = "SELECT COALESCE(sum(amount),0) as amount FROM invoice_receipt_master where depositedto ='"+ searchid +"'";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+
+	@Override
+	public List<Map<String, Object>> getprojectpurchase_payment_master(int searchid) {
+		String sql = "SELECT COALESCE(sum(amount),0) as amount FROM projectpurchase_payment_master where depitedfrom ='"+ searchid +"'";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+
+	@Override
+	public List<Map<String, Object>> getproject_expense_category(int searchid) {
+		String sql = "SELECT COALESCE(sum(total),0) as amount FROM project_expense where category ='"+ searchid +"'";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+
+	@Override
+	public List<Map<String, Object>> getbranchexpense_item_master_byexpenseItem(int searchid) {
+		String sql = "SELECT COALESCE(sum(total),0) as amount FROM branchexpense_master where category ='"+ searchid +"'";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+
+	@Override
+	public List<Map<String, Object>> getbranchpurchase_item_master_category(int searchid) {
+		String sql = "SELECT COALESCE(sum(totalamount_amount),0) as amount FROM branchpurchase_item_master where branchpurchase_item ='"+ searchid +"'";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+
+	@Override
+	public List<Map<String, Object>> getprojectpurchase_item_master_category(int searchid) {
+		String sql = "SELECT COALESCE(sum(totalamount_amount),0) as amount FROM projectpurchase_item_master where projectpurchase_item ='"+ searchid +"'";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+
+	@Override
+	public List<Map<String, Object>> getproject_expensewithdraw(int searchid) {
+		String sql = "SELECT COALESCE(sum(total),0) as amount FROM project_expense where depitedfrom ='"+ searchid +"'";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+
+	@Override
+	public List<Map<String, Object>> getbranch_expensewithdraw(int searchid) {
+		String sql = "SELECT COALESCE(sum(total),0) as amount FROM branchexpense_master where depitedfrom ='"+ searchid +"'";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+
+	@Override
+	public List<Map<String, Object>> getsalary_payroll() {
+		String sql = "SELECT COALESCE(sum(net),0) as amount FROM payslip where depitedfrom <>''";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+		
+	}
+
+	@Override
+	public List<Map<String, Object>> getsalary_payroll_expense(int searchid) {
+		String sql = "SELECT COALESCE(sum(net),0) as amount FROM payslip where depitedfrom ='"+ searchid +"'";
+		List<Map<String, Object>> op = JdbcTemplate.queryForList(sql);
+		return op;
+	}
+	
+	
+
+	
+
+}
