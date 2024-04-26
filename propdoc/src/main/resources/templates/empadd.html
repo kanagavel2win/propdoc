@@ -1,0 +1,2798 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+	class="light-style layout-navbar-fixed layout-menu-fixed" dir="ltr"
+	data-theme="theme-default" th:data-assets-path="@{/assets/}"
+	data-template="vertical-menu-template">
+<head>
+<meta name="_csrf" th:content="${_csrf.token}" />
+<!-- default header name is X-CSRF-TOKEN -->
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+<title th:text="${employeemaster.StaffName} + ' Profile'"></title>
+
+<meta name="description" content="" />
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon"
+	th:href="@{/assets/img/favicon/favicon.ico}" />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+	rel="stylesheet" />
+
+<!-- Icons -->
+<link rel="stylesheet" th:href="@{/assets/vendor/fonts/boxicons.css}" />
+<link rel="stylesheet" th:href="@{/assets/vendor/fonts/fontawesome.css}" />
+<link rel="stylesheet" th:href="@{/assets/vendor/fonts/flag-icons.css}" />
+
+<!-- Core CSS -->
+<link rel="stylesheet" th:href="@{/assets/vendor/css/rtl/core.css}"
+	class="template-customizer-core-css" />
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/css/rtl/theme-default.css}"
+	class="template-customizer-theme-css" />
+<link rel="stylesheet" th:href="@{/assets/css/demo.css}" />
+
+<!-- Vendors CSS -->
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css}" />
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/libs/typeahead-js/typeahead.css}" />
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css}" />
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css}" />
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css}" />
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/libs/animate-css/animate.css}" />
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/libs/sweetalert2/sweetalert2.css}" />
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/libs/flatpickr/flatpickr.css}" />
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css}" />
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.css}" />
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/libs/jquery-timepicker/jquery-timepicker.css}" />
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/libs/select2/select2.css}" />
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/libs/formvalidation/dist/css/formValidation.min.css}" />
+
+<!-- Page CSS -->
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/css/pages/page-profile.css}" />
+<!-- Helpers -->
+<script th:src="@{/assets/vendor/js/helpers.js}"></script>
+
+<!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+<!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
+<script th:src="@{/assets/vendor/js/template-customizer.js}"></script>
+<!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+<script th:src="@{/assets/js/config.js}"></script>
+
+
+
+<style>
+.bx-check-circle {
+	color: green;
+}
+
+.pop_cursor {
+	cursor: pointer;
+}
+
+.pop_cursor:hover {
+	font-weight: bold;
+}
+
+.contacteditbtn {
+	cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+	<!-- Layout wrapper -->
+	<div class="layout-wrapper layout-content-navbar">
+		<div class="layout-container">
+			<!-- Menu -->
+			<div th:insert="menu"></div>
+			<!-- / Menu -->
+
+			<!-- Layout container -->
+			<div class="layout-page">
+				<!-- Navbar -->
+
+				<div th:insert="header"></div>
+
+				<!-- / Navbar -->
+
+				<!-- Content wrapper -->
+				<div class="content-wrapper">
+					<!-- Content -->
+
+					<div class="container-xxl flex-grow-1 container-p-y">
+						<h4 class="py-3 breadcrumb-wrapper mb-4">
+							<span class="text-muted fw-light">User Profile /</span> Profile
+						</h4>
+
+						<!-- Header -->
+						<div class="row">
+							<div class="col-12">
+								<div class="card mb-4">
+									<div class="user-profile-header-banner">
+										<img th:src="@{/assets/img/pages/profile-banner.png}"
+											alt="Banner image" class="rounded-top" />
+									</div>
+									<div
+										class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
+										<div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
+											<img th:src="${employeemaster.t_emp_img}" alt="user image"
+												class="d-block h-auto ms-0 ms-sm-4 rounded-3 user-profile-img" />
+										</div>
+										<div class="flex-grow-1 mt-3 mt-sm-5">
+											<div
+												class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
+												<div class="user-profile-info">
+													<h4 th:text="${employeemaster.StaffName}"></h4>
+													<ul
+														class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
+														<li class="list-inline-item fw-semibold"><i
+															class="bx bx-pen"></i> <th:block
+																th:text="${employeemaster.t_position}"></th:block></li>
+														<li class="list-inline-item fw-semibold"><i
+															class="bx bx-map"></i> <th:block
+																th:text="${employeemaster.t_branch_name}"></th:block></li>
+														<li class="list-inline-item fw-semibold"><i
+															class="bx bx-calendar-alt"></i> <th:block
+																th:text="'Experience '+ ${employeemaster.t_joindatetimeline}"></th:block>
+														</li>
+														
+													</ul>
+												</div>
+												<!--  <a href="javascript:void(0)" class="btn btn-primary text-nowrap">
+                            <i class="bx bx-user-check"></i> Connected
+                          </a> -->
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--/ Header -->
+
+						<!-- Navbar pills -->
+						<div class="row">
+							<div class="col-md-12">
+								<ul class="nav nav-pills flex-column flex-sm-row mb-4">
+									<li class="nav-item"><a class="nav-link active"
+										href="javascript:void(0);"><i class="bx bx-user"></i>
+											Profile</a></li>
+									<li class="nav-item"><a class="nav-link"
+										th:href="'empjob?id=' + ${employeemaster['empMasterid']}"><i
+											class="bx bx-group"></i> Job Title</a></li>
+									<li class="nav-item"><a class="nav-link"
+										href="underMaintenance"><i
+											class="bx bx-grid-alt"></i> Projects</a></li>
+											
+									<li class="nav-item"><a class="nav-link"
+										th:href="'empbenefits?id=' + ${employeemaster['empMasterid']}"><i
+											class="bx bx-grid-alt"></i> Benefits</a></li>
+									<li class="nav-item"><a class="nav-link" th:href="'empadvance?id=' + ${employeemaster['empMasterid']}"><i class='bx bx-money-withdraw'></i>  Advance</a></li>
+								</ul>
+							</div>
+						</div>
+						<!--/ Navbar pills -->
+
+						<!-- User Profile Content -->
+						<div class="row">
+							<div class="col-xl-4 col-lg-5 col-md-5">
+								<!-- About User -->
+								<div class="card mb-4">
+									<div class="card-body">
+										<small class="text-muted text-uppercase">About</small>
+										<ul class="list-unstyled mb-4 mt-3">
+											<li class="d-flex align-items-center mb-3"><span
+												class="fw-semibold mx-2">First Name:</span> <span
+												th:text="${employeemaster.StaffName}" id="Lbl_StaffName"></span>
+											</li>
+											<li class="d-flex align-items-center mb-3"><span
+												class="fw-semibold mx-2">Last Name :</span> <span
+												th:text="${employeemaster.Father_HusbandName}"
+												id="Lbl_Father_HusbandName"></span></li>
+											<li class="d-flex align-items-center mb-3"><span
+												class="fw-semibold mx-2">Gender :</span> <span
+												th:text="${employeemaster.Gender}" id="Lbl_Gender"></span></li>
+											<li class="d-flex align-items-center mb-3"><span
+												class="fw-semibold mx-2">Marital Status:</span> <span
+												th:text="${employeemaster.MaritalStatus}"
+												id="Lbl_MaritalStatus"></span></li>
+											<li class="d-flex align-items-center mb-3"><span
+												class="fw-semibold mx-2">DOB:</span> <span
+												th:text="${employeemaster.dobMMformat}" id="Lbl_DateofBirth"></span>
+											</li>
+											<li class="d-flex align-items-center mb-3"><span
+												class="fw-semibold mx-2">Blood Group:</span> <span
+												th:text="${employeemaster.BloodGroup}" id="Lbl_BloodGroup"></span>
+											</li>
+											<li class="d-flex align-items-center mb-3"><span
+												class="fw-semibold mx-2">Height(cm):</span> <span
+												th:text="${employeemaster.Height}" id="Lbl_Height"></span></li>
+											<li class="d-flex align-items-center mb-3"><span
+												class="fw-semibold mx-2">Weight(kg):</span> <span
+												th:text="${employeemaster.Weight}" id="Lbl_Weight"></span></li>
+											<li class="d-flex align-items-center mb-3"><span
+												class="fw-semibold mx-2">Shirt Size:</span> <span
+												th:text="${employeemaster.ShirtSize}" id="Lbl_ShirtSize"></span>
+											</li>
+											<li class="d-flex align-items-center mb-3"><span
+												class="fw-semibold mx-2">Shoe Size:</span> <span
+												th:text="${employeemaster.ShoeSize}" id="Lbl_ShoeSize"></span>
+											</li>
+											<li class="d-flex align-items-center mb-3"><span
+												class="fw-semibold mx-2">Pant Size:</span> <span
+												th:text="${employeemaster.PantSize}" id="Lbl_PantSize"></span>
+											</li>
+											<li class="d-flex align-items-center mb-3"><span
+												class="fw-semibold mx-2">Accommodation:</span> <span
+												th:text="${employeemaster.Accommodation}"
+												id="Lbl_Accommodation"></span></li>
+
+										</ul>
+										<div class="d-flex justify-content-center pt-3">
+											<a href="javascript:;" class="btn btn-primary me-3"
+												data-bs-target="#editEmployeedetails" data-bs-toggle="modal"
+												id="editEmployeedetailsbtn">Edit</a>
+
+										</div>
+
+									</div>
+								</div>
+								<!--/ About User -->
+								<!-- Contact Card -->
+								<div class="card  mb-4">
+									<div class="card-body1">
+										<div class="card-header align-items-center">
+											<h5 class="card-action-title mb-0">
+												Contacts
+												<div class="card-action-element" style="float: right">
+													<button class="btn btn-primary btn-sm addcontactbtn"
+														type="button" name="-" data-bs-toggle="modal"
+														data-bs-target="#addNewContact">
+														<i class="bx bx-plus bx-xs me-1"></i>
+													</button>
+												</div>
+											</h5>
+
+										</div>
+										<div class="card-body">
+											<div class="added-cards">
+												<th:block
+													th:each="contactObj : ${employeemaster.employeeContact}">
+													<div
+														th:class="'cardMaster border p-3 rounded mb-3 card'+ ${contactObj.employeecontactid}">
+														<div
+															class="d-flex justify-content-between flex-sm-row flex-column">
+															<div class="card-information">
+																<input type="hidden"
+																	th:class="'primarycontact'+ ${contactObj.employeecontactid}"
+																	th:value="${contactObj.primarycontact}" />
+																<h6
+																	th:class="'mb-3 contacteditbtn contacttype'+ ${contactObj.employeecontactid}"
+																	th:text="${contactObj.Department}"
+																	th:name="${contactObj.employeecontactid}">></h6>
+																<h6
+																	th:class="'mb-1 phonenumber'+ ${contactObj.employeecontactid}"
+																	th:text="${contactObj.Phonenumber}"></h6>
+																<span
+																	th:class="'card-number email'+ ${contactObj.employeecontactid}"
+																	th:text="${contactObj.Email}"></span> <span
+																	th:class="'primarycontactlablecontainer'+ ${contactObj.employeecontactid}">
+																	<span th:if="${contactObj.primarycontact}"
+																	class="badge bg-label-primary">Primary</span>
+																</span>
+															</div>
+															<div class="d-flex flex-column text-start text-lg-end">
+																<div class="d-flex order-sm-0 order-1 mt-3">
+																	<button th:unless="${contactObj.primarycontact}"
+																		class="btn btn-label-secondary contactdeletebtn"
+																		th:name="${contactObj.employeecontactid}">
+																		<i class='bx bxs-trash-alt'></i>
+																	</button>
+
+																</div>
+
+															</div>
+														</div>
+													</div>
+												</th:block>
+												<span id="contactaddidv"></span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /Contact Card -->
+
+								<!-- Address Card -->
+
+								<div class="card mb-4">
+									<div class="card-body">
+										<h5 class="pb-2 border-bottom mb-4">Address</h5>
+										<div class="info-container">
+											<ul class="list-unstyled">
+												<li class="mb-3"><span class="fw-bold me-2">Country:</span>
+													<span th:text="${employeemaster.Address_Country}"
+													id="Lbl_AddressCountry"></span></li>
+												<li class="mb-3"><span class="fw-bold me-2">Address
+														Line 1:</span> <span th:text="${employeemaster.Address_Street1}"
+													id="Lbl_AddressAddress1"></span></li>
+												<li class="mb-3"><span class="fw-bold me-2">Address
+														Line 2:</span> <span th:text="${employeemaster.Address_Street2}"
+													id="Lbl_AddressAddress2"></span></li>
+												<li class="mb-3"><span class="fw-bold me-2">Landmark:</span>
+													<span th:text="${employeemaster.Address_Landmark}"
+													id="Lbl_AddressLandmark"></span></li>
+												<li class="mb-3"><span class="fw-bold me-2">Village:</span>
+													<span th:text="${employeemaster.Address_Village}"
+													id="Lbl_AddressVillage"></span></li>
+												<li class="mb-3"><span class="fw-bold me-2">City/Town:</span>
+													<span th:text="${employeemaster.Address_City}"
+													id="Lbl_AddressCity"></span></li>
+												<li class="mb-3"><span class="fw-bold me-2">State:</span>
+													<span th:text="${employeemaster.Address_State}"
+													id="Lbl_AddressState"></span></li>
+												<li class="mb-3"><span class="fw-bold me-2">Pin
+														code:</span> <span th:text="${employeemaster.Address_ZIP}"
+													id="Lbl_AddressZipCode"></span></li>
+											</ul>
+											<div class="d-flex justify-content-center pt-3">
+												<a href="javascript:;" class="btn btn-primary me-3"
+													data-bs-target="#addNewAddress" data-bs-toggle="modal">Edit</a>
+
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /Address Card -->
+								<!-- Document   Card -->
+								<div class="card  mb-4">
+									<div class="card-body1">
+										<div class="card-header align-items-center">
+											<h5 class="card-action-title mb-0">
+												Document
+												<div class="card-action-element" style="float: right">
+													<button class="btn btn-primary btn-sm" type="button"
+														data-bs-toggle="modal" data-bs-target="#addNewDocument">
+														<i class="bx bx-plus bx-xs me-1"></i>
+													</button>
+												</div>
+											</h5>
+
+										</div>
+										<div class="card-body">
+											<div class="added-cards">
+												<th:block
+													th:each="fileObj : ${employeemaster.employeeFiles}">
+													<div
+														th:class="'cardMaster border p-3 rounded mb-3 filecard' + ${fileObj.empFileid}">
+														<div
+															class="d-flex justify-content-between flex-sm-row flex-column">
+															<div class="card-information">
+
+																<h6 class="mb-1" th:text="${fileObj.DocumentType}"></h6>
+																<span class="card-number"
+																	th:text="${fileObj.DocumentNo}"></span>
+
+																<th:block th:if="${fileObj.FilePath != ''}">
+																	<br />
+																	<a th:href="${fileObj.FilePath}" target="_blank"> <th:block
+																			th:if="${#strings.arraySplit(fileObj.FilePath,'.')[1]} == 'pdf'">
+																			<img th:src="@{/assets/img/icons/misc/pdf.png}"
+																				alt="PDF image" width="20" class="me-2">
+																		</th:block> <th:block
+																			th:unless="${#strings.arraySplit(fileObj.FilePath,'.')[1]} == 'pdf'">
+																			<img th:src="@{/assets/img/icons/misc/jpg.png}"
+																				alt="PDF image" width="20" class="me-2">
+																		</th:block> <small class="text-body"
+																		th:text="${fileObj.FilePath_trim}">
+																	</small>
+																	</a>
+																</th:block>
+
+															</div>
+															<div class="d-flex flex-column text-start text-lg-end">
+																<div class="d-flex order-sm-0 order-1 mt-3">
+
+																	<button class="btn btn-label-secondary filedeletebtn"
+																		th:name="${fileObj.empFileid}">
+																		<i class='bx bxs-trash-alt'></i>
+																	</button>
+																</div>
+
+															</div>
+														</div>
+													</div>
+
+												</th:block>
+												<span id="fileaddidv"></span>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<!-- /Document   Card -->
+								<!-- Bank Account Card -->
+								<div class="card mb-4">
+									<div class="card-body">
+										<h5 class="pb-2 border-bottom mb-4">
+											Bank Details
+
+											<div class="card-action-element" style="float: right">
+												<button class="btn btn-primary btn-sm collapsetogglebtn"
+													type="button" data-bs-toggle="collapse"
+													href="#bankdetailscollapseExample" aria-expanded="false"
+													aria-controls="bankdetailscollapseExample">
+													<i id="collapsetoggleicon"
+														class="bx bx-chevron-down bx-xs me-1"></i>
+												</button>
+											</div>
+										</h5>
+
+										<div class="info-container collapse"
+											id="bankdetailscollapseExample">
+
+
+											<ul class="list-unstyled"
+												th:with="accobj = ${employeemaster.employeeAccNo[0]}">
+												<li class="mb-3"><span class="fw-bold me-2">A.C.No:</span>
+													<span th:text="${accobj.acno}" id="Lbl_acno"></span></li>
+												<li class="mb-3"><span class="fw-bold me-2">Account
+														Name:</span> <span th:text="${accobj.acname}" id="Lbl_acname"></span>
+												</li>
+												<li class="mb-3"><span class="fw-bold me-2">Bank
+														Name:</span> <span th:text="${accobj.bankname}" id="Lbl_bankname"></span>
+												</li>
+												<li class="mb-3"><span class="fw-bold me-2">Branch
+														Name:</span> <span th:text="${accobj.branchname}"
+													id="Lbl_branchname"></span></li>
+												<li class="mb-3"><span class="fw-bold me-2">IFSC
+														Code:</span> <span th:text="${accobj.ifsccode}" id="Lbl_ifsccode"></span>
+												</li>
+											</ul>
+
+											<div class="d-flex justify-content-center pt-3">
+												<a href="javascript:;" class="btn btn-primary me-3"
+													data-bs-target="#addNewBankDetails" data-bs-toggle="modal">Edit</a>
+
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /Bank Account Card -->
+
+							</div>
+							<!-- <div class="col-xl-4 col-lg-5 col-md-5"> -->
+							<div class="col-xl-8 col-lg-7 col-md-7 order-0 order-md-1">
+								<!-- Billing Address -->
+								<div class="card card-action mb-4">
+									<div class="card-header align-items-center">
+										<h5 class="card-action-title mb-0">Emergency Contact</h5>
+										<div class="card-action-element" style="float: right">
+											<button class="btn btn-primary btn-sm addNewEmgAddress"
+												type="button" data-bs-toggle="modal"
+												data-bs-target="#addNewEmgAddress">
+												<i class="bx bx-plus bx-xs me-1"></i>
+											</button>
+										</div>
+									</div>
+									<div class="card-body" id="addNewEmg">
+										<th:block th:each="emg : ${employeemaster.employeeEmgContact}">
+											<div class="row editemg" th:id="${emg.empEmgContactid}">
+												<hr />
+
+												<div class="col-xl-7 col-12">
+													<dl class="row mb-0">
+														<dt class="col-sm-4 mb-3 text-nowrap">
+															Name: <input type="hidden"
+																th:id="'empEmgContactid' + ${emg.empEmgContactid}"
+																th:value="${emg.empEmgContactid}" name="empEmgContactid">
+															<input type="hidden"
+																th:id="'Emg_InsuranceNominee' + ${emg.empEmgContactid}"
+																th:value="${emg.Emg_InsuranceNominee}">
+														</dt>
+														<dd class="col-sm-8">
+															<span th:id="'Emg_Name' + ${emg.empEmgContactid}"
+																class="pop_cursor" th:text="${emg.Emg_Name}"
+																onclick="editemgAddressdata(event);"></span> <span
+																th:id="'Emg_Nominee' + ${emg.empEmgContactid}"> <span
+																th:if="${emg.Emg_InsuranceNominee}"><br />
+																	<button type="button"
+																		class="btn btn-xs rounded-pill btn-label-dark">Nominee</button>
+															</span>
+															</span>
+
+														</dd>
+
+														<dt class="col-sm-4 mb-3 text-nowrap">Relationship:</dt>
+														<dd class="col-sm-8"
+															th:id="'Emg_Relation' + ${emg.empEmgContactid}"
+															th:text="${emg.Emg_Relation}"></dd>
+
+														<dt class="col-sm-4 mb-3 text-nowrap">Address Line1:</dt>
+														<dd class="col-sm-8"
+															th:id="'Emg_Street1' + ${emg.empEmgContactid}"
+															th:text="${emg.Emg_Street1}"></dd>
+
+														<dt class="col-sm-4 mb-3 text-nowrap">Address Line2:</dt>
+														<dd class="col-sm-8"
+															th:id="'Emg_Street2' + ${emg.empEmgContactid}"
+															th:text="${emg.Emg_Street2}"></dd>
+
+														<dt class="col-sm-4 mb-3 text-nowrap">Landmark:</dt>
+														<dd class="col-sm-8"
+															th:id="'Emg_Landmark' + ${emg.empEmgContactid}"
+															th:text="${emg.Emg_Landmark}"></dd>
+													</dl>
+												</div>
+												<div class="col-xl-5 col-12">
+													<dl class="row mb-0">
+														<dt class="col-sm-4 mb-3 text-nowrap">Contact No:</dt>
+														<dd class="col-sm-8"
+															th:id="'Emg_PersonalPhone' + ${emg.empEmgContactid}"
+															th:text="${emg.Emg_PersonalPhone}"></dd>
+
+														<dt class="col-sm-4 mb-3 text-nowrap">Village:</dt>
+														<dd class="col-sm-8"
+															th:id="'Emg_Village' + ${emg.empEmgContactid}"
+															th:text="${emg.Emg_Village}"></dd>
+
+														<dt class="col-sm-4 mb-3 text-nowrap">City:</dt>
+														<dd class="col-sm-8"
+															th:id="'Emg_City' + ${emg.empEmgContactid}"
+															th:text="${emg.Emg_City}"></dd>
+
+														<dt class="col-sm-4 mb-3 text-nowrap">State:</dt>
+														<dd class="col-sm-8"
+															th:id="'Emg_State' + ${emg.empEmgContactid}"
+															th:text="${emg.Emg_State}"></dd>
+
+														<dt class="col-sm-4 mb-3 text-nowrap">Pincode:</dt>
+														<dd class="col-sm-8"
+															th:id="'Emg_ZIP' + ${emg.empEmgContactid}"
+															th:text="${emg.Emg_ZIP}"></dd>
+
+														<dt class="col-sm-4 mb-3 text-nowrap">Country:</dt>
+														<dd class="col-sm-8"
+															th:id="'Emg_Country' + ${emg.empEmgContactid}"
+															th:text="${emg.Emg_Country}"></dd>
+
+													</dl>
+												</div>
+
+											</div>
+										</th:block>
+									</div>
+								</div>
+								<!--/ Billing Address -->
+								<!-- Project table -->
+								<div class="card card-action mb-4">
+									<div class="card-header align-items-center">
+										<h5 class="card-action-title mb-0">Language</h5>
+										<div class="card-action-element" style="float: right">
+											<button class="btn btn-primary btn-sm AddLanguages"
+												type="button" data-bs-toggle="modal"
+												data-bs-target="#AddLanguages">
+												<i class="bx bx-plus bx-xs me-1"></i>
+											</button>
+										</div>
+									</div>
+
+
+
+									<div class="table-responsive">
+										<table class="table table-striped table-borderless"
+											id="Languagetable">
+											<thead>
+												<tr>
+													<th class="text-nowrap">Language</th>
+													<th class="text-nowrap text-center">Read</th>
+													<th class="text-nowrap text-center">Write</th>
+													<th class="text-nowrap text-center">Speak</th>
+												</tr>
+											</thead>
+											<tbody>
+
+												<tr th:each="lan : ${employeemaster.employeeLanguage}"
+													th:id="${lan.empLanguid}">
+
+													<td class="text-nowrap pop_cursor"
+														th:text="${lan.language}"
+														th:id="'language' + ${lan.empLanguid}"
+														onclick="editlang(event);"></td>
+													<td class="text-center"
+														th:id="'lan_read' + ${lan.empLanguid}"><i
+														th:if="${lan.lan_read}" class="bx bx-check-circle"> </i></td>
+													<td class="text-center"
+														th:id="'lan_write' + ${lan.empLanguid}"><i
+														th:if="${lan.lan_write}" class="bx bx-check-circle"> </i></td>
+													<td class="text-center"
+														th:id="'lan_speak' + ${lan.empLanguid}"><i
+														th:if="${lan.lan_speak}" class="bx bx-check-circle"> </i></td>
+
+
+												</tr>
+
+
+											</tbody>
+										</table>
+									</div>
+
+									<!-- /Notifications -->
+								</div>
+								<!-- /Project table -->
+
+								<!-- Timeline Advanced-->
+								<div class="col-xl-12">
+									<div class="card card-action mb-4">
+										<div class="card-header align-items-center">
+											<h5 class="card-action-title mb-0">Qualification</h5>
+											<div class="card-action-element" style="float: right">
+												<button class="btn btn-primary btn-sm AddQualification"
+													type="button" data-bs-toggle="modal"
+													data-bs-target="#AddQualification">
+													<i class="bx bx-plus bx-xs me-1"></i>
+												</button>
+											</div>
+										</div>
+										<div class="card-body">
+											<ul class="timeline timeline-dashed mt-4 timelinequf">
+
+												<li th:each="obj : ${employeemaster.employeeEducation}"
+													class="timeline-item timeline-item-primary mb-4 "
+													onclick="editExper(event);" th:id="${obj.empEduid}"><span
+													class="timeline-indicator timeline-indicator-primary">
+														<i class="bx bxs-graduation"></i>
+												</span>
+													<div class="timeline-event">
+														<div class="timeline-header border-bottom mb-3">
+															<h6 class="mb-0 pop_cursor"
+																th:text="${obj.Degree} + ' _ '+ ${obj.MajorSpecialization}"
+																th:id="'h6' + ${obj.empEduid}"></h6>
+															<small class="text-muted"
+																th:text="${obj.FromYear} +'_' + ${obj.ToYear}"
+																th:id="'small' + ${obj.empEduid}"></small>
+														</div>
+														<div class="d-flex justify-content-between flex-wrap mb-2">
+															<div>
+																<span th:text="${obj.College_Institution}"
+																	th:id="'span1_' + ${obj.empEduid}"></span>
+															</div>
+															<div>
+																<span th:text="${obj.Percentage_GPA}"
+																	th:id="'span2_' + ${obj.empEduid}"></span>
+															</div>
+
+														</div>
+														<!-- <a href="javascript:void(0)">
+			                              <i class="bx bx-link"></i>
+			                              bookingCard.pdf
+			                            </a> -->
+													</div></li>
+
+											</ul>
+										</div>
+									</div>
+								</div>
+								<!-- /Timeline Advanced-->
+								<!-- Timeline Left-->
+								<div class="col-xl-12">
+									<div class="card card-action mb-4">
+										<div class="card-header align-items-center">
+											<h5 class="card-action-title mb-0">Experience</h5>
+											<div class="card-action-element" style="float: right">
+												<button class="btn btn-primary btn-sm AddExperience"
+													type="button" data-bs-toggle="modal"
+													data-bs-target="#AddExperience">
+													<i class="bx bx-plus bx-xs me-1"></i>
+												</button>
+											</div>
+										</div>
+										<div class="card-body">
+											<ul class="timeline mt-3 timeline-exp">
+												<li th:each="obj : ${employeemaster.employeeExperience}"
+													class="timeline-item timeline-item-transparent "
+													onclick="editExperience(event);"
+													th:id="${obj.empExperienceid}"><span
+													class="timeline-point timeline-point-primary"></span>
+													<div class="timeline-event">
+														<div class="timeline-header border-bottom mb-3">
+															<h6 class="mb-0 pop_cursor" th:text="${obj.JobTitle}"
+																th:id="'Exph6'+${obj.empExperienceid}"></h6>
+															<small class="text-muted"
+																th:text="${obj.expFromyear} +'_'+ ${obj.expToyear}"
+																th:id="'Expsmall'+${obj.empExperienceid}"></small>
+														</div>
+														<div class="d-flex justify-content-between flex-wrap mb-2">
+															<div>
+																<span th:text="${obj.Company}"
+																	th:id="'Expspan1'+${obj.empExperienceid}"></span>
+															</div>
+															<div>
+																<span class="text-muted" th:text="${obj.Location}"
+																	th:id="'Expspan2'+${obj.empExperienceid}"></span>
+															</div>
+														</div>
+													</div></li>
+
+											</ul>
+										</div>
+									</div>
+								</div>
+								<!-- /Timeline Left -->
+							</div>
+
+
+						</div>
+						<!--/ User Profile Content -->
+
+						<!-- Modal -->
+						<!-- Edit User Modal -->
+						<div class="modal fade" id="editEmployeedetails" tabindex="-1"
+							aria-hidden="true">
+							<div class="modal-dialog modal-lg modal-simple modal-edit-user">
+								<div class="modal-content p-3 p-md-5">
+
+									<div class="modal-body">
+										<button type="button" class="btn-close"
+											data-bs-dismiss="modal" aria-label="Close"></button>
+										<div class="text-center mb-4">
+											<h3>Edit User Information</h3>
+											<p>Updating user details will receive a privacy audit</p>
+										</div>
+										<form id="editEmployeedetailsForm"
+											th:object="${employeemaster}"
+											class="row g-3 needs-validation" onsubmit="return false">
+											<input type="hidden"
+												th:value="${employeemaster['empMasterid']}" id="empMasterid" />
+
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="Model_StaffName">First
+													Name</label> <input type="text" class="form-control"
+													id="Model_StaffName" th:field="*{StaffName}"
+													th:value="${employeemaster['StaffName']}"  onkeydown="return /[a-z\s]/i.test(event.key)"  required />
+												<div class="invalid-feedback">Please enter First Name.</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="Model_Father_HusbandName">Last
+													Name</label> <input type="text" class="form-control"
+													id="Model_Father_HusbandName"
+													th:value="${employeemaster['Father_HusbandName']}"
+													th:field="*{Father_HusbandName}"  onkeydown="return /[a-z\s]/i.test(event.key)"  required />
+												<div class="invalid-feedback">Please enter Last Name.</div>
+											</div>
+											<div class="col-12">
+												<label class="d-block form-label">Gender</label>
+												<div class="form-check">
+													<input type="radio" id="Model_gender_male"
+														name="Model_gender" class="form-check-input"
+														th:field="*{Gender}" value="Male" required /> <label
+														class="form-check-label" for="Model_gender_male">Male</label>
+												</div>
+												<div class="form-check">
+													<input type="radio" id="Model_gender_female"
+														name="Model_gender" class="form-check-input"
+														th:field="*{Gender}" value="Female" required /> <label
+														class="form-check-label" for="Model_gender_female">Female</label>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="Model_MaritalStatus">Marital
+													Status</label> <select class="form-select"
+													aria-label="Default select example"
+													id="Model_MaritalStatus" th:field="*{MaritalStatus}"
+													th:value="${employeemaster['MaritalStatus']}" required>
+													<option value="">Select Marital Status</option>
+													<option th:each="str :${MARITALSTATUS}" th:value="${str}"
+														th:text="${str}"></option>
+
+												</select>
+												<div class="invalid-feedback">Please Select Marital
+													Status</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="Model_DateofBirth">DOB</label>
+												<input type="date" class="form-control flatpickr-validation"
+													id="Model_DateofBirth"
+													th:value="${employeemaster['DateofBirth']}"
+													th:field="*{DateofBirth}" required />
+												<div class="invalid-feedback">Please enter DOB .</div>
+											</div>
+
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="Model_BloodGroup">Blood
+													Group </label> <select class="form-select" id="Model_BloodGroup"
+													th:field="*{BloodGroup}"
+													th:value="${employeemaster['BloodGroup']}" required>
+													<option value="-">Select Blood Group</option>
+													<option value="A+">A+</option>
+													<option value="A1+">A1+</option>
+													<option value="O+">O+</option>
+													<option value="B+">B+</option>
+													<option value="AB+">AB+</option>
+													<option value="A-">A-</option>
+													<option value="A1-">A1-</option>
+													<option value="O-">O-</option>
+													<option value="B-">B-</option>
+													<option value="AB-">AB-</option>
+
+												</select>
+												<div class="invalid-feedback">Please enter Blood
+													Group.</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="Model_Height">Height(cm)</label>
+												<input type="text" class="form-control" id="Model_Height"
+													th:field="*{Height}" th:value="${employeemaster['Height']}"
+													required />
+												<div class="invalid-feedback">Please enter Height(cm).</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="Model_Weight">Weight(kg)</label>
+												<input type="text" class="form-control" id="Model_Weight"
+													th:field="*{Weight}" th:value="${employeemaster['Weight']}"
+													required />
+												<div class="invalid-feedback">Please enter Weight(kg).</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="Model_ShirtSize">Shirt
+													Size</label> <input type="text" class="form-control"
+													id="Model_ShirtSize" th:field="*{ShirtSize}"
+													th:value="${employeemaster['ShirtSize']}" />
+												<div class="invalid-feedback">Please enter Shirt Size.</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="Model_ShoeSize">Shoe
+													Size</label> <input type="text" class="form-control"
+													id="Model_ShoeSize" th:field="*{ShoeSize}"
+													th:value="${employeemaster['ShoeSize']}" />
+												<div class="invalid-feedback">Please enter Shoe Size.</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="Model_PantSize">Pant
+													Size </label> <input type="text" class="form-control"
+													id="Model_PantSize" th:field="*{PantSize}"
+													th:value="${employeemaster['PantSize']}" />
+												<div class="invalid-feedback">Please enter Pant Size .</div>
+											</div>
+											<div class="mb-3">
+												<label class="d-block form-label">Accommodation</label>
+												<div class="form-check mb-2">
+													<input type="radio" id="Model_Accommodation_Self"
+														name="Model_Accommodation" class="form-check-input"
+														th:field="*{Accommodation}" value="Self" required /> <label
+														class="form-check-label" for="Model_Accommodation_Self">Self</label>
+												</div>
+												<div class="form-check">
+													<input type="radio" id="Model_Accommodation_Office"
+														name="Model_Accommodation" class="form-check-input"
+														th:field="*{Accommodation}" value="Office" required /> <label
+														class="form-check-label" for="Model_Accommodation_Office">Office</label>
+												</div>
+											</div>
+
+
+											<div class="col-12 text-center mt-4">
+												<button type="submit"
+													class="btn btn-primary edituserdatap1submit me-sm-3 me-1">Submit</button>
+												<button type="button"
+													class="btn btn-label-secondary edituserdatap1close"
+													data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--/ Edit User Modal -->
+
+						<!-- Add New Contact Modal -->
+						<div class="modal fade" id="addNewContact" tabindex="-1"
+							aria-hidden="true">
+							<div
+								class="modal-dialog modal-dialog-centered1 modal-simple modal-add-new-cc">
+								<div class="modal-content p-3 p-md-5">
+									<div class="modal-body">
+										<button type="button" class="btn-close"
+											data-bs-dismiss="modal" aria-label="Close"></button>
+										<div class="text-center mb-4">
+											<h3>Contact Details</h3>
+											<p>Add/Update Contact Information</p>
+										</div>
+										<form id="addContactform" class="row g-3"
+											onsubmit="return false">
+											<div class="col-12">
+												<label class="form-label w-100" for="modalAddCard">Contact
+													Type <label class="emptitle additem"
+													name="addmodalcontacttype"><i
+														class="bx bxs-plus-circle ownstyle1"></i></label>
+												</label>
+												<div class="input-group input-group-merge">
+													<select id="modalcontacttype"
+														class="form-select modalcontacttype" required>
+
+														<option value="">-</option>
+														<th:block th:each="str :${CONTACTTYPE}">
+															<option th:value="${str}" th:text="${str}"></option>
+														</th:block>
+
+													</select>
+													<div class="invalid-feedback">Please select contact
+														type</div>
+													<input type="hidden" id="modalcontactid"
+														name="modalcontactid" class="form-contro" />
+												</div>
+											</div>
+											<div class="col-12">
+												<label class="form-label" for="modalcontactPhone">Phone
+													Number </label>
+												<div class="input-group input-group-merge">
+													<span class="input-group-text">+91</span> <input
+														type="text" id="modalcontactPhone"
+														name="modalcontactPhone"
+														class="form-control phone-number-otp-mask"
+														placeholder="999 555 0111"  pattern=".{12}"  required />
+
+												</div>
+											</div>
+											<div class="col-12">
+												<label class="form-label" for="modalContactemail">Email
+												</label> <input type="email" id="modalContactemail"
+													class="form-control expiry-date-mask" />
+												<div class="invalid-feedback">Please enter a valid
+													email</div>
+											</div>
+											<div class="col-12">
+												<label class="switch"> <input type="checkbox"
+													class="switch-input" id="modalcontactprimary" /> <span
+													class="switch-toggle-slider"> <span
+														class="switch-on"> <i class="bx bx-check"></i>
+													</span> <span class="switch-off"> <i class="bx bx-x"></i>
+													</span>
+												</span> <span class="switch-label">Make this as primary
+														contact?</span>
+												</label>
+											</div>
+											<div class="col-12 text-center mt-4">
+												<button type="submit"
+													class="btn  btn-primary me-sm-3 me-1 contactsavebtn">Submit</button>
+												<button type="reset"
+													class="btn btn-label-secondary btn-reset contactclosebtn"
+													data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--/ Add New Credit Card Modal -->
+						<!-- Add New Address Modal -->
+						<div class="modal fade" id="addNewAddress" tabindex="-1"
+							aria-hidden="true">
+							<div
+								class="modal-dialog modal-lg modal-simple modal-add-new-address">
+								<div class="modal-content p-3 p-md-5">
+									<div class="modal-body">
+										<button type="button" class="btn-close"
+											data-bs-dismiss="modal" aria-label="Close"></button>
+										<div class="text-center mb-4">
+											<h3 class="address-title">Address</h3>
+											<p class="address-subtitle">Address for express delivery</p>
+										</div>
+										<form id="addNewAddressForm" th:object="${employeemaster}"
+											class="row g-3" onsubmit="return false">
+											<div class="col-12">
+												<label class="form-label" for="modalAddressCountry">Country</label>
+												<select id="modalAddressCountry" name="modalAddressCountry"
+													class="select2 form-select" data-allow-clear="true"
+													th:field="*{Address_Country}"
+													th:value="${employeemaster.Address_Country}">
+													<option value="">Select</option>
+													<option value="Australia">Australia</option>
+													<option value="Bangladesh">Bangladesh</option>
+													<option value="Belarus">Belarus</option>
+													<option value="Brazil">Brazil</option>
+													<option value="Canada">Canada</option>
+													<option value="China">China</option>
+													<option value="France">France</option>
+													<option value="Germany">Germany</option>
+													<option value="India">India</option>
+													<option value="Indonesia">Indonesia</option>
+													<option value="Israel">Israel</option>
+													<option value="Italy">Italy</option>
+													<option value="Japan">Japan</option>
+													<option value="Korea">Korea, Republic of</option>
+													<option value="Mexico">Mexico</option>
+													<option value="Philippines">Philippines</option>
+													<option value="Russia">Russian Federation</option>
+													<option value="South Africa">South Africa</option>
+													<option value="Thailand">Thailand</option>
+													<option value="Turkey">Turkey</option>
+													<option value="Ukraine">Ukraine</option>
+													<option value="United Arab Emirates">United Arab
+														Emirates</option>
+													<option value="United Kingdom">United Kingdom</option>
+													<option value="United States">United States</option>
+												</select>
+											</div>
+											<div class="col-12">
+												<label class="form-label" for="modalAddressAddress1">Address
+													Line 1</label> <input type="text" id="modalAddressAddress1"
+													name="modalAddressAddress1" class="form-control"
+													placeholder="Flat, House no, Building, Apartment"
+													th:value="${employeemaster.Address_Street1}" />
+											</div>
+											<div class="col-12">
+												<label class="form-label" for="modalAddressAddress2">Address
+													Line 2</label> <input type="text" id="modalAddressAddress2"
+													name="modalAddressAddress2" class="form-control"
+													placeholder="Area, Street, Sector"
+													th:value="${employeemaster.Address_Street2}" />
+											</div>
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="modalAddressLandmark">Landmark</label>
+												<input type="text" id="modalAddressLandmark"
+													name="modalAddressLandmark" class="form-control"
+													placeholder="E.g. near Kovai All India Radio"
+													th:value="${employeemaster.Address_Landmark}" />
+											</div>
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="modalAddressVillage">Village
+												</label> <input type="text" id="modalAddressVillage"
+													name="modalAddressVillage" class="form-control"
+													th:value="${employeemaster.Address_Village}" />
+											</div>
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="modalAddressCity">City</label>
+												<input type="text" id="modalAddressCity"
+													name="modalAddressCity" class="form-control"
+													th:value="${employeemaster.Address_City}" />
+											</div>
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="modalAddressLandmark">State</label>
+												<input type="text" id="modalAddressState"
+													name="modalAddressState" class="form-control"
+													th:value="${employeemaster.Address_State}" />
+											</div>
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="modalAddressZipCode">Zip
+													Code</label> <input type="number" id="modalAddressZipCode"
+													name="modalAddressZipCode" class="form-control"
+													th:value="${employeemaster.Address_ZIP}" />
+											</div>
+
+											<div class="col-12 text-center mt-4">
+												<button type="submit"
+													class="btn btn-primary me-sm-3 me-1 editbranchAddressdatasubmit">Submit</button>
+												<button type="button"
+													class="btn btn-label-secondary editbranchAddressdataclose"
+													data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--/ Add New Address Modal -->
+						<!-- Add New Emf Address Modal -->
+						<div class="modal fade" id="addNewEmgAddress" tabindex="-1"
+							aria-hidden="true">
+							<div
+								class="modal-dialog modal-lg modal-simple modal-add-new-address">
+								<div class="modal-content p-3 p-md-5">
+									<div class="modal-body">
+										<button type="button" class="btn-close"
+											data-bs-dismiss="modal" aria-label="Close"></button>
+										<div class="text-center mb-4">
+											<h3 class="address-title">Address</h3>
+											<p class="address-subtitle">Address for express Emergency
+												contact</p>
+										</div>
+										<form id="addNewEmgAddressForm"
+											th:object="${employeeEmgAddress}" class="row g-3"
+											onsubmit="emgAddressdata(event);">
+											<div class="col-12 col-md-6">
+												<div class="form-check">
+													<br /> <input class="form-check-input" type="checkbox"
+														id="InsuranceNominee" th:field="*{Emg_InsuranceNominee}" />
+													<label class="form-check-label" for="InsuranceNominee">
+														Insurance Nominee </label> <input type="hidden"
+														id="empEmgContactid" name="empEmgContactid" />
+
+												</div>
+
+											</div>
+
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="modalEmg_Name">Name</label> <input
+													type="text" id="modalEmg_Name" th:field="*{Emg_Name}"
+													class="form-control" />
+											</div>
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="modalEmg_PersonalPhone">Contact
+													No</label> <input type="text" id="modalEmg_PersonalPhone"
+													th:field="*{Emg_PersonalPhone}" class="form-control phone-number-otp-mask1"
+													placeholder="999 555 0111"  pattern=".{12}" required/>
+											</div>
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="modalEmg_RelationEmg">Relation
+												</label>
+												<select id="modalEmg_RelationEmg"
+													class="select2 form-select modalrelation" data-allow-clear="true"
+													th:field="*{Emg_Relation}">
+													<option value="">Select</option>
+													<option th:each="str :${RELATION}" th:value="${str}"
+														th:text="${str}"></option>
+
+												</select>
+											</div>
+
+											<div class="col-12">
+												<label class="form-label" for="modalAddressCountryEmg">Country</label>
+												<select id="modalAddressCountryEmg"
+													class="select2 form-select" data-allow-clear="true"
+													th:field="*{Emg_Country}">
+													<option value="">Select</option>
+													<option value="Australia">Australia</option>
+													<option value="Bangladesh">Bangladesh</option>
+													<option value="Belarus">Belarus</option>
+													<option value="Brazil">Brazil</option>
+													<option value="Canada">Canada</option>
+													<option value="China">China</option>
+													<option value="France">France</option>
+													<option value="Germany">Germany</option>
+													<option value="India">India</option>
+													<option value="Indonesia">Indonesia</option>
+													<option value="Israel">Israel</option>
+													<option value="Italy">Italy</option>
+													<option value="Japan">Japan</option>
+													<option value="Korea">Korea, Republic of</option>
+													<option value="Mexico">Mexico</option>
+													<option value="Philippines">Philippines</option>
+													<option value="Russia">Russian Federation</option>
+													<option value="South Africa">South Africa</option>
+													<option value="Thailand">Thailand</option>
+													<option value="Turkey">Turkey</option>
+													<option value="Ukraine">Ukraine</option>
+													<option value="United Arab Emirates">United Arab
+														Emirates</option>
+													<option value="United Kingdom">United Kingdom</option>
+													<option value="United States">United States</option>
+												</select>
+											</div>
+											<div class="col-12">
+												<label class="form-label" for="modalAddressAddress1Emg">Address
+													Line 1</label> <input type="text" id="modalAddressAddress1Emg"
+													th:field="*{Emg_Street1}" class="form-control"
+													placeholder="Flat, House no, Building, Apartment" />
+											</div>
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="modalAddressAddress2Emg">Address
+													Line 2</label> <input type="text" id="modalAddressAddress2Emg"
+													th:field="*{Emg_Street2}" class="form-control"
+													placeholder="Area, Street, Sector" />
+											</div>
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="modalAddressLandmarkEmg">Landmark</label>
+												<input type="text" id="modalAddressLandmarkEmg"
+													th:field="*{Emg_Landmark}" class="form-control"
+													placeholder="E.g. near Kovai All India Radio" />
+											</div>
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="modalAddressVillageEmg">Village
+												</label> <input type="text" id="modalAddressVillageEmg"
+													th:field="*{Emg_Village}" class="form-control" />
+											</div>
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="modalAddressCityEmg">City</label>
+												<input type="text" id="modalAddressCityEmg"
+													class="form-control" th:field="*{Emg_City}" />
+											</div>
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="modalAddressLandmarkEmg">State</label>
+												<input type="text" id="modalAddressStateEmg"
+													class="form-control" th:field="*{Emg_State}" />
+											</div>
+											<div class="col-12 col-md-6">
+												<label class="form-label" for="modalAddressZipCodeEmg">Zip
+													Code</label> <input type="number" id="modalAddressZipCodeEmg"
+													class="form-control" th:field="*{Emg_ZIP}" />
+											</div>
+
+											<div class="col-12 text-center mt-4">
+												<button type="submit"
+													class="btn btn-primary me-sm-3 me-1 editemgAddressdatasubmit"
+													onclick="">Submit</button>
+												<button type="reset"
+													class="btn btn-label-secondary editemgAddressdataclose"
+													data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--/ Add New Emg Address Modal -->
+						<!-- Add Document -->
+						<div class="modal fade" id="addNewDocument" tabindex="-1"
+							aria-hidden="true">
+							<div
+								class="modal-dialog modal-dialog-centered1 modal-simple modal-add-new-cc">
+								<div class="modal-content p-3 p-md-5">
+									<div class="modal-body">
+										<button type="button" class="btn-close"
+											data-bs-dismiss="modal" aria-label="Close"></button>
+										<div class="text-center mb-4">
+											<h3>Add Document</h3>
+											<p>Attach Files / Documents / Image</p>
+										</div>
+										<form id="addNewdocument" class="row g-3"
+											onsubmit="return false">
+											<div class="col-12">
+												<label class="form-label w-100" for="modalAddCard">Document
+													Type <label class="emptitle additem"
+													name="addmodaldocumenttype"> <i
+														class="bx bxs-plus-circle ownstyle1"></i></label>
+												</label>
+												<div class="input-group input-group-merge">
+													<select id="modalDocumenttype" class="form-select">
+														<option value="">Default select</option>
+														<th:block th:each="str :${Documenttype}">
+															<option th:value="${str}" th:text="${str}"></option>
+														</th:block>
+													</select>
+
+												</div>
+											</div>
+											<div class="col-12">
+												<label class="form-label" for="modalAddCardName">Document
+													No </label> <input type="text" id="modalDocNo"
+													class="form-control expiry-date-mask" />
+											</div>
+											<div class="col-12">
+												<label class="form-label" for="modalAddCardExpiryDate">Upload
+													File </label> <input type="file" id="modalFile"
+													class="form-control expiry-date-mask" />
+											</div>
+											<div class="col-12 text-center mt-4">
+												<button type="submit"
+													class="btn btn-primary me-sm-3 me-1 documentsave">Submit</button>
+												<button type="button"
+													class="btn btn-label-secondary btn-reset documentclose"
+													data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--/ Add Document -->
+
+						<!-- Add BankDetails -->
+						<div class="modal fade" id="addNewBankDetails" tabindex="-1"
+							aria-hidden="true">
+							<div
+								class="modal-dialog modal-dialog-centered1 modal-simple modal-add-new-cc">
+								<div class="modal-content p-3 p-md-5">
+									<div class="modal-body">
+										<button type="button" class="btn-close"
+											data-bs-dismiss="modal" aria-label="Close"></button>
+										<div class="text-center mb-4">
+											<h3>Bank Details</h3>
+											<p>Add/Update Branch Bank information</p>
+										</div>
+										<form id="addNewBankDetails" class="row g-3"
+											onsubmit="return false"
+											th:with="accobj = ${employeemaster.employeeAccNo[0]}">
+
+											<div class="col-12">
+												<label class="form-label" for="model_acno">A.C.No </label> <input
+													type="hidden" id="model_branchAccnoid"
+													class="form-control expiry-date-mask"
+													th:value="${accobj.Accnoid}" required /> <input
+													type="text" id="model_acno"
+													class="form-control expiry-date-mask"
+													th:value="${accobj.acno}" required />
+											</div>
+											<div class="col-12">
+												<label class="form-label" for="model_acno_confirm">Confirm
+													The A.C.No </label> <input type="password" id="model_acno_confirm"
+													class="form-control expiry-date-mask"
+													th:value="${accobj.acno}" required />
+											</div>
+											<div class="col-12">
+												<label class="form-label" for="model_acname">Account
+													Name</label> <input type="text" id="model_acname"
+													class="form-control expiry-date-mask"
+													th:value="${accobj.acname}" required />
+											</div>
+											<div class="col-12">
+												<label class="form-label" for="model_bankname">Bank
+													Name</label> <input type="text" id="model_bankname"
+													class="form-control expiry-date-mask"
+													th:value="${accobj.bankname}" required />
+											</div>
+											<div class="col-6">
+												<label class="form-label" for="model_branchname">Branch
+													Name </label> <input type="text" id="model_branchname"
+													class="form-control expiry-date-mask"
+													th:value="${accobj.branchname}" required />
+											</div>
+											<div class="col-6">
+												<label class="form-label" for="model_ifsccode">IFSC
+													Code </label> <input type="text" id="model_ifsccode"
+													class="form-control expiry-date-mask"
+													th:value="${accobj.ifsccode}" required />
+											</div>
+
+											<div class="col-12 text-center mt-4">
+												<button type="submit"
+													class="btn btn-primary me-sm-3 me-1 BankDetailssave">Submit</button>
+												<button type="button"
+													class="btn btn-label-secondary btn-reset BankDetailsclose"
+													data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--/ Add BankDetails -->
+
+
+
+						<!-- Add New Credit Card Modal -->
+						<div class="modal fade" id="AddLanguages" tabindex="-1"
+							aria-hidden="true">
+							<div
+								class="modal-dialog modal-dialog-centered1 modal-simple modal-add-new-cc">
+								<div class="modal-content p-3 p-md-5">
+									<div class="modal-body">
+										<button type="button" class="btn-close"
+											data-bs-dismiss="modal" aria-label="Close"></button>
+										<div class="text-center mb-4">
+											<h3>Languages</h3>
+
+										</div>
+										<form id="LanguageAdd" class="row" onsubmit="addlang(event);">
+
+											<div class="col-lg-12 col-md-12">
+												<input type="hidden" id="lanid" name="lanid" /> <label
+													class="form-label" for="Language">Language
+													 </label> 													
+													<select id="Language" name="Language" 
+														class="form-select modallanguage" required>
+
+														<option value="">-</option>
+														<th:block th:each="str :${LANGUAGE}">
+															<option th:value="${str}" th:text="${str}"></option>
+														</th:block>
+
+													</select>
+
+											</div>
+
+
+
+											<div class="col-lg-4 mt-4 col-md-12">
+												<label class="switch"> <input type="checkbox"
+													class="switch-input" id="Read" name="Read"> <span
+													class="switch-toggle-slider"> <span
+														class="switch-on"> <i class="bx bx-check"></i>
+													</span> <span class="switch-off"> <i class="bx bx-x"></i>
+													</span>
+												</span> <span class="switch-label">Read</span>
+												</label>
+											</div>
+
+											<div class="col-lg-4  mt-4 col-md-12">
+												<label class="switch"> <input type="checkbox"
+													class="switch-input" id="Write" name="Write"> <span
+													class="switch-toggle-slider"> <span
+														class="switch-on"> <i class="bx bx-check"></i>
+													</span> <span class="switch-off"> <i class="bx bx-x"></i>
+													</span>
+												</span> <span class="switch-label">Write</span>
+												</label>
+											</div>
+
+
+
+											<div class="col-lg-4 mt-4 col-md-12">
+												<label class="switch"> <input type="checkbox"
+													class="switch-input" id="Speak" name="Speak"> <span
+													class="switch-toggle-slider"> <span
+														class="switch-on"> <i class="bx bx-check"></i>
+													</span> <span class="switch-off"> <i class="bx bx-x"></i>
+													</span>
+												</span> <span class="switch-label">Speak</span>
+												</label>
+											</div>
+
+
+											<div class="col-12 text-center mt-4">
+												<button type="submit" class="btn btn-primary me-sm-3 me-1">Save</button>
+												<button type="reset"
+													class="btn btn-label-secondary btn-reset"
+													data-bs-dismiss="modal" aria-label="Close"
+													onclick="langclose();">Cancel</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--/ Add New Credit Card Modal -->
+
+
+
+
+
+
+						<!-- Add New Address Modal -->
+						<div class="modal fade" id="AddQualification" tabindex="-1"
+							aria-hidden="true">
+							<div
+								class="modal-dialog modal-lg modal-simple modal-add-new-address">
+								<div class="modal-content p-3 p-md-5">
+									<div class="modal-body">
+										<button type="button" class="btn-close"
+											data-bs-dismiss="modal" aria-label="Close"></button>
+										<div class="text-center mb-4">
+											<h3 class="address-title">Qualification</h3>
+
+										</div>
+										<form id="Qualificationform" class="row g-3"
+											onsubmit="addQualificationitem(event);">
+											<input type="hidden" id="Qualid"  name="Qualid"/>
+											<div class="mb-3 col-lg-12 col-md-12">
+												<label class="form-label" for="Institution">College
+													/ Institution </label> <input type="text" class="form-control"
+													id="Institution" name="Institution"
+													placeholder="College / Institution">
+											</div>
+
+
+											<div class="mb-3 col-lg-6 col-md-12">
+												<input type="hidden" id="empEduid"> <label
+													class="form-label" for="Degree">Degree
+													</label> <select
+													class="form-control modaldegree" id="Degree" name="Degree">
+													<option value="">-</option>
+														 <th:block th:each="str :${DEGREE}">
+															<option th:value="${str}" th:text="${str}"></option>
+														</th:block>
+
+												</select>
+											</div>
+
+											<div class="mb-3 col-lg-6 col-md-12">
+												<label class="form-label" for="Major">Major /
+													Specialization</label> <input class="form-control" id="Major"
+													name="Major" type="text" />
+
+
+											</div>
+
+
+
+
+
+											<div class="mb-3 col-lg-6 col-md-12">
+												<label class="form-label" for="From">From Date</label> <input
+													type="date" class="form-control" id="Qualificationfrom"
+													name="Qualificationfrom" placeholder="From date">
+											</div>
+
+
+											<div class="mb-3 col-lg-6 col-md-12">
+												<label class="form-label" for="Qualificationto">To
+													Date</label> <input type="date" class="form-control"
+													id="Qualificationto" name="Qualificationto"
+													placeholder="To Date">
+											</div>
+
+											<div class="mb-3 col-lg-6 col-md-12">
+												<label class="form-label" for="Percentage"> GPA</label> <input
+													type="text" class="form-control" id="Percentage"
+													name="Percentage" placeholder="Percentage / GPA">
+											</div>
+
+											<div class="col-12 text-center mt-4">
+												<button type="sumbit" class="btn btn-primary me-sm-3 me-1">Save</button>
+												<button type="reset" class="btn btn-label-secondary"
+													data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--/ Add New Address Modal -->
+
+
+
+						<!-- Add New Address Modal -->
+						<div class="modal fade" id="AddExperience" tabindex="-1"
+							aria-hidden="true">
+							<div
+								class="modal-dialog modal-lg modal-simple modal-add-new-address">
+								<div class="modal-content p-3 p-md-5">
+									<div class="modal-body">
+										<button type="button" class="btn-close"
+											data-bs-dismiss="modal" aria-label="Close"></button>
+										<div class="text-center mb-4">
+											<h3 class="address-title">Experience</h3>
+
+										</div>
+										<form id="Experienceform" class="row g-3"
+											onsubmit="addExper(event);">
+											<input type="hidden" id="expid" name="expid" />
+											<div class="mb-3 col-lg-6 col-md-12">
+												<label class="form-label" for="Company">Company </label> <input
+													type="text" class="form-control" id="Company"
+													name="Company" placeholder="Company" />
+											</div>
+
+											<div class="mb-3 col-lg-6 col-md-12">
+												<label class="form-label" for="Location">Location </label> <input
+													type="text" class="form-control" id="Location"
+													name="Location" placeholder="Location" />
+											</div>
+
+											<div class="mb-3 col-lg-6 col-md-12">
+												<label class="form-label" for="From">From Date</label> <input
+													type="date" class="form-control" id="Experiencefrom"
+													name="Experiencefrom" placeholder="From date" />
+											</div>
+
+
+											<div class="mb-3 col-lg-6 col-md-12">
+												<label class="form-label" for="Qualificationto">To
+													Date</label> <input type="date" class="form-control"
+													id="Experiencento" name="Experiencento"
+													placeholder="To Date">
+											</div>
+
+											<div class="mb-3 col-lg-6 col-md-12">
+												<label class="form-label" for="Location">Role </label> <input
+													type="text" class="form-control" id="Role" name="Role"
+													placeholder="Role" />
+											</div>
+
+											<div class="col-12 text-center mt-4">
+												<button type="sumbit" class="btn btn-primary me-sm-3 me-1">Save</button>
+												<button type="reset" class="btn btn-label-secondary"
+													data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--/ Add New Address Modal -->
+
+
+
+
+						<!--scrolling content Modal -->
+						<div class="modal fade" id="ItemStatusScrollable" tabindex="-1"
+							role="dialog" aria-labelledby="ItemStatusScrollableTitle"
+							aria-hidden="true">
+							<div class="modal-dialog modal-dialog-scrollable" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title white" id="ItemStatusScrollableTitle"></h5>
+										<button type="button" class="btn-close"
+											data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<div class="col-md-12">
+											<div class="form-group">
+												<label for="addmodel" id="additemalltxt"></label>
+												<div class="position-relative">
+													<fieldset class="form-group">
+														<input type="text" id="additemall" name="addmodel"
+															class="form-control capitalize">
+													</fieldset>
+												</div>
+											</div>
+										</div>
+
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-light-secondary"
+											data-bs-dismiss="modal">
+											<i class="bx bx-x d-block d-sm-none"></i> <span
+												class="d-none d-sm-block">Close</span>
+										</button>
+										<button type="button" class="btn btn-primary ml-1"
+											id="additemallsavebtn">
+											<i class="bx bx-check d-block d-sm-none"></i> <span
+												class="d-none d-sm-block">ADD</span>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--scrolling content Modal -->
+
+						<!-- /Modal -->
+					</div>
+					<!-- / Content -->
+
+					<!-- Footer -->
+					<!-- / Footer -->
+
+					<div class="content-backdrop fade"></div>
+				</div>
+				<!-- Content wrapper -->
+			</div>
+			<!-- / Layout page -->
+		</div>
+
+		<!-- Overlay -->
+		<div class="layout-overlay layout-menu-toggle"></div>
+
+		<!-- Drag Target Area To SlideIn Menu On Small Screens -->
+		<div class="drag-target"></div>
+	</div>
+	<!-- / Layout wrapper -->
+
+	<!-- Core JS -->
+	<script th:src="@{/assets/vendor/libs/jquery/jquery.js}"></script>
+	<script th:src="@{/assets/vendor/libs/popper/popper.js}"></script>
+	<script th:src="@{/assets/vendor/js/bootstrap.js}"></script>
+	<script
+		th:src="@{/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js}"></script>
+
+	<script th:src="@{/assets/vendor/libs/hammer/hammer.js}"></script>
+
+	<script th:src="@{/assets/vendor/libs/i18n/i18n.js}"></script>
+	<script th:src="@{/assets/vendor/libs/typeahead-js/typeahead.js}"></script>
+
+	<script th:src="@{/assets/vendor/js/menu.js}"></script>
+	<!-- endbuild -->
+
+	<!-- Vendors JS -->
+	<script th:src="@{/assets/vendor/libs/moment/moment.js}"></script>
+	<script th:src="@{/assets/vendor/libs/datatables/jquery.dataTables.js}"></script>
+	<script
+		th:src="@{/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js}"></script>
+	<script
+		th:src="@{/assets/vendor/libs/datatables-responsive/datatables.responsive.js}"></script>
+	<script
+		th:src="@{/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.js}"></script>
+	<script
+		th:src="@{/assets/vendor/libs/datatables-buttons/datatables-buttons.js}"></script>
+	<script
+		th:src="@{/assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.js}"></script>
+	<script th:src="@{/assets/vendor/libs/jszip/jszip.js}"></script>
+	<script th:src="@{/assets/vendor/libs/pdfmake/pdfmake.js}"></script>
+	<script
+		th:src="@{/assets/vendor/libs/datatables-buttons/buttons.html5.js}"></script>
+	<script
+		th:src="@{/assets/vendor/libs/datatables-buttons/buttons.print.js}"></script>
+	<script th:src="@{/assets/vendor/libs/sweetalert2/sweetalert2.js}"></script>
+	<script th:src="@{/assets/vendor/libs/cleavejs/cleave.js}"></script>
+	<script th:src="@{/assets/vendor/libs/cleavejs/cleave-phone.js}"></script>
+	<script th:src="@{/assets/vendor/libs/select2/select2.js}"></script>
+	<!-- Form Validation -->
+	<script
+		th:src="@{/assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js}"></script>
+	<script
+		th:src="@{/assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js}"></script>
+	<script
+		th:src="@{/assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js}"></script>
+
+	<!-- Main JS -->
+	<script th:src="@{/assets/js/main.js}"></script>
+
+	<!-- Flat Picker -->
+	<script th:src="@{/assets/vendor/libs/moment/moment.js}"></script>
+	<script th:src="@{/assets/vendor/libs/flatpickr/flatpickr.js}"></script>
+	<script
+		th:src="@{/assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js}"></script>
+	<script
+		th:src="@{/assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js}"></script>
+	<script
+		th:src="@{/assets/vendor/libs/jquery-timepicker/jquery-timepicker.js}"></script>
+	<script th:src="@{/assets/vendor/libs/pickr/pickr.js}"></script>
+
+	<!-- Page JS -->
+	<!-- <script th:src="@{/assets/js/modal-edit-user.js}"></script> -->
+	<script th:src="@{/assets/js/app-user-view.js}"></script>
+	<script th:src="@{/assets/js/app-user-view-account.js}"></script>
+
+
+
+
+
+	<script>
+	
+	const Qualificationfrom = flatpickr("#Qualificationfrom", {
+		  altInput: true,
+	      altFormat: 'F j, Y',
+	      dateFormat: 'Y-m-d'
+	     });
+	
+	const Qualificationto = flatpickr("#Qualificationto", {
+		  altInput: true,
+	      altFormat: 'F j, Y',
+	      dateFormat: 'Y-m-d'
+	     });
+	
+	
+	const Experiencefrom = flatpickr("#Experiencefrom", {
+		  altInput: true,
+	      altFormat: 'F j, Y',
+	      dateFormat: 'Y-m-d'
+	     });
+	
+	const Experiencento = flatpickr("#Experiencento", {
+		  altInput: true,
+	      altFormat: 'F j, Y',
+	      dateFormat: 'Y-m-d'
+	     });
+	
+    $(document).ready(function() {  
+    	//--------------------------------------------------------------------------------------------------------------------------------------
+    	
+		//--------------------------------------------------------------------------------------------------------------------------------------		 		
+
+		$(function() {
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$(document).ajaxSend(function(e, xhr, options) {
+				xhr.setRequestHeader(header, token);
+			});
+		});
+		//--------------------------------------------------------------------------------------------------------------------------------------
+		function validationformuserp1reset()
+   		{
+   			$('.edituserdatap1close').click();
+			$('.edituserdatap1submit').prop("disabled",false);
+   			$('.edituserdatap1submit').html("Submit");
+   		}
+		//-----------------------------------------------------------------------------------------------------------------------------------
+		$(".addNewEmgAddress").click(function() {
+			$("#empEmgContactid").val('');
+		});
+		$(".AddLanguages").click(function() {
+			$("#lanid").val('');
+		});
+		$(".AddQualification").click(function() {
+			$("#Qualid").val('');
+		});
+		$(".AddExperience").click(function() {
+			$("#expid").val('');
+		});
+		//--------------------------------------------------------------------------------------------------------------------------------------		 
+		$('#editEmployeedetailsForm').on('submit', function(event){
+  			   	 
+  			   		$('.edituserdatap1submit').prop("disabled",true);
+  			   	    $('.edituserdatap1submit').html('<span class="spinner-border" role="status" aria-hidden="true"></span> Loading...');
+		    	    if(event.target.checkValidity()){
+		    	    
+		    	    	const formdata= new FormData(document.querySelector("#editEmployeedetailsForm"));
+		    	    	formdata.append("empMasterid", $('#empMasterid').val())
+		    	    	$.ajax({
+	  						type : "POST",url : "employeep1json",
+	  						data : formdata, contentType: false,
+			   	              processData: false,success : function(result) {
+			   	            	  
+			   	            	var bmobj = JSON.parse(JSON.stringify(result));
+			   	            	$('#Lbl_StaffName').text(bmobj.staffName);
+			   	            	$('#Lbl_Father_HusbandName').text(bmobj.father_HusbandName);
+			   	            	$('#Lbl_Gender').text(bmobj.gender);
+			   	            	$('#Lbl_MaritalStatus').text(bmobj.maritalStatus);
+			   	            	$('#Lbl_DateofBirth').text(bmobj.dobMMformat);
+			   	            	$('#Lbl_BloodGroup').text(bmobj.bloodGroup);
+			   	            	$('#Lbl_Height').text(bmobj.height);
+			   	            	$('#Lbl_Weight').text(bmobj.weight);
+			   	            	$('#Lbl_ShirtSize').text(bmobj.pantSize);
+			   	            	$('#Lbl_ShoeSize').text(bmobj.shoeSize);
+			   	            	$('#Lbl_PantSize').text(bmobj.pantSize);
+			   	            	$('#Lbl_Accommodation').text(bmobj.accommodation);
+			   	            	validationformuserp1reset();
+	  						},
+			    	    	error : function(e) {
+	  							console.log("Error" + e);
+	  						}
+		    	    	});
+		    	    }
+		});
+		//--------------------------------------------------------------------------------------------------------------------------------------
+		 $('.editbranchAddressdatasubmit').on('click', function(event){
+
+	    	  $('.editbranchAddressdatasubmit').prop("disabled",true);
+	    	  
+	    	    if(event.target.checkValidity()){
+	    	    	$('.editbranchAddressdatasubmit').html('<span class="spinner-border" role="status" aria-hidden="true"></span> Loading...');
+	    	    	var empMasterid=$("#empMasterid").val();
+	    	    	var modalAddressCountry =$('#modalAddressCountry').val();
+	    	    	var modalAddressAddress1 =$('#modalAddressAddress1').val();
+	    	    	var modalAddressAddress2 =$('#modalAddressAddress2').val();
+	    	    	var modalAddressLandmark =$('#modalAddressLandmark').val();
+	    	    	var modalAddressVillage =$('#modalAddressVillage').val();
+	    	    	var modalAddressCity =$('#modalAddressCity').val();
+	    	    	var modalAddressState =$('#modalAddressState').val();
+	    	    	var modalAddressZipCode =$('#modalAddressZipCode').val();
+	    	    	var formData = {
+	  	        			 empMasterid: empMasterid,
+	  	        			AddressCountry : modalAddressCountry,
+	  	        			AddressAddress1 : modalAddressAddress1,
+	  	        			AddressAddress2 : modalAddressAddress2,
+	  	        			AddressLandmark : modalAddressLandmark,
+	  	        			AddressVillage : modalAddressVillage,
+	  	        			AddressCity : modalAddressCity,
+	  	        			AddressState : modalAddressState,
+	  	        			AddressZipCode : modalAddressZipCode,
+	  	        			functiontype : 'Employee'
+	  				 }
+	  				 $.ajax({
+	  						type : "POST",url : "Addressupdatejson",
+	  						data : formData, success : function(result) {
+	  							var bmobj = JSON.parse(JSON.stringify(result));
+	  							console.log(bmobj);
+	  							$('#Lbl_AddressCountry').text(bmobj.address_Country);
+	  							$('#Lbl_AddressAddress1').text(bmobj.address_Street1);
+	  							$('#Lbl_AddressAddress2').text(bmobj.address_Street2);
+	  							$('#Lbl_AddressLandmark').text(bmobj.address_Landmark);
+	  							$('#Lbl_AddressVillage').text(bmobj.address_Village);
+	  							$('#Lbl_AddressCity').text(bmobj.address_City);
+	  							$('#Lbl_AddressState').text(bmobj.address_State);
+	  							$('#Lbl_AddressZipCode').text(bmobj.address_ZIP);
+								validationformaddressreset();
+	  						},
+	  						error : function(e) {
+	  							console.log("Error" + e);
+	  						}
+	  					});
+	  	        }	
+	    	    else
+	        	{
+	    	    	$('.editbranchAddressdatasubmit').prop("disabled",false);
+	        	}
+	      });
+ 		// --------------------------------------------------------------------
+ 			function validationformempemgreset()
+			{
+				$('.editemgAddressdataclose').click();
+  				$('.editemgAddressdatasubmit').prop("disabled",false);
+	   			$('.editemgAddressdatasubmit').html("Submit");
+			}
+	   		function validationformreset()
+		   {
+	   				$('.editbranchdataclose').click();
+	   				$('.editbranchdatasubmit').prop("disabled",false);
+		   			$('.editbranchdatasubmit').html("Submit");
+		   }
+	   		function validationformaddressreset()
+		   {
+	   				$('.editbranchAddressdataclose').click();
+	   				$('.editbranchAddressdatasubmit').prop("disabled",false);
+		   			$('.editbranchAddressdatasubmit').html("Submit");
+		   }
+	   		function validationformContactreset()
+			   {
+		   				$('.contactclosebtn').click();
+		   				$('.contactsavebtn').prop("disabled",false);
+			   			$('.contactsavebtn').html("Submit");
+			   }
+	   		
+	   		function validationformfilereset()
+			   {
+		   				$('.documentclose').click();
+		   				$('.documentsave').prop("disabled",false);
+			   			$('.documentsave').html("Submit");
+			   }
+	   		function validationformbankaccreset()
+	   		{
+	   			$('.BankDetailsclose').click();
+  				$('.BankDetailssave').prop("disabled",false);
+	   			$('.BankDetailssave').html("Submit");
+	   		}
+	   		
+	   	// --------------------------------------------------------------------
+	   	 
+			  $(".addcontactbtn").click(function(){
+				$('#modalcontactid').val("-");
+			  });
+			  
+			// --------------------------------------------------------------------
+			
+			 
+	  			   	$('#addContactform').on('submit', function(event){
+	  			   	
+	  			   		formData={
+	  			    	    empMasterid: $("#empMasterid").val(),
+							src : "Employee",
+							modalcontactid : $('#modalcontactid').val()								
+					}
+	  			  $.ajax({
+					type : "GET",url : "checkPrimaryContactisPresant",
+					data :formData ,success : function(result) {
+							if(result == true && $("#modalcontactprimary").is(':checked'))
+								{
+									Swal.fire({
+								        title: '',
+								        text: "Primary Contact it already exists",
+								        confirmButtonText: 'Ok',
+								        customClass: {
+								          confirmButton: 'btn btn-primary'
+								        },
+								        buttonsStyling: false
+								      });
+									document.getElementById("radioHead-Office").checked=false;
+									
+								}else
+								{
+	  			   	
+						  			   		$('.contactsavebtn').prop("disabled",true);
+								    	  
+								    	    if(event.target.checkValidity()){
+								    	    	$('.contactsavebtn').html('<span class="spinner-border" role="status" aria-hidden="true"></span> Loading...');
+								    	    	var empMasterid=$("#empMasterid").val();
+								    	    	var modalcontactid =$('#modalcontactid').val();
+								    	    	var modalcontacttype =$('#modalcontacttype').val();
+								    	    	var modalcontactPhone =$('#modalcontactPhone').val();
+								    	    	var modalContactemail =$('#modalContactemail').val();
+								    	    	var primarycontact =$("#modalcontactprimary").is(':checked');
+								    	  
+								    	    	
+								    	    	var formData = {
+								  	        			 empMasterid: empMasterid,
+								  	        			 contactid: modalcontactid,
+								  	        			 contacttype : modalcontacttype,
+								  	        			 contactPhone : modalcontactPhone,
+								  	        			 contactemail : modalContactemail,
+								  	        			 primarycontact: primarycontact,
+								  	        			functiontype : 'Employee'
+								  				 }
+								  				 $.ajax({
+								  						type : "POST",url : "Contactupdatejson",
+								  						data : formData, success : function(result) {
+								  							var bmobj = JSON.parse(JSON.stringify(result));
+								  							
+								  							if(modalcontactid == '-')
+							  								{
+								  								let tempresultid=bmobj;
+								  								let parameters= tempresultid +",'"+ modalcontacttype +"','"+ modalcontactPhone +"','"+ modalContactemail +"','"+ primarycontact +"'";
+									  							let tempresult ='<div class="cardMaster border p-3 rounded mb-3 card'+ tempresultid +'"><div class="d-flex justify-content-between flex-sm-row flex-column"><div class="card-information">';
+									  							tempresult += '<input type="hidden" class="primarycontact'+ tempresultid +'" value="'+ primarycontact +'"/><h6 class="mb-3 contacteditbtn contacttype'+  tempresultid +'"  onClick="reply_click('+ parameters +')">'+ modalcontacttype +'</h6>';
+									  							tempresult += '<h6 class="mb-1 phonenumber'+  tempresultid +'">'+ modalcontactPhone +'</h6><span class="card-number email'+ tempresultid +'">'+ modalContactemail +'</span>';
+									  							
+									  							tempresult += '<span class="primarycontactlablecontainer'+  tempresultid +'">';
+									  							if(primarycontact)
+								  								{
+									  								tempresult += '<span class="primarycontacttxt'+  tempresultid +'"><span class="badge bg-label-primary ">Primary</span></span>';
+								  								}
+									  							tempresult += '</span>'; 
+									  							tempresult += '</div><div class="d-flex flex-column text-start text-lg-end"><div class="d-flex order-sm-0 order-1 mt-3">';
+									  							//tempresult += '<button class="btn btn-label-primary me-3 " name="'+ tempresultid +'" onClick="reply_click('+ parameters +')"><i class="bx bxs-edit-alt"></i></button><br/>';
+									  							tempresult += '<button class="btn btn-label-secondary"  id="'+ tempresultid +'" name="'+ tempresultid +'"  onClick="contactdeleteoperation('+ tempresultid +')"  ><i class="bx bxs-trash-alt"></i></button></div></div></div></div>';
+									  						
+									  							$('#contactaddidv').before(tempresult);
+									  						    
+							  								}
+								  							else
+							  								{
+								  								
+								  								if(primarycontact)
+								  								{
+								  									$('.primarycontactlablecontainer'+modalcontactid).html("<span class='badge bg-label-primary'>Primary</span>");
+								  									
+								  								}else
+							  									{
+								  									$('.primarycontactlablecontainer'+modalcontactid).html("");
+								  										 
+							  									}
+								  								$('.contacttype'+modalcontactid).text(modalcontacttype);
+								  								$('.phonenumber'+modalcontactid).text(modalcontactPhone);
+								  								$('.email'+modalcontactid).text(modalContactemail);
+								  								$('.primarycontact'+modalcontactid).val(primarycontact);
+								  								
+							  								}
+									  							validationformContactreset();
+								  						},
+								  						error : function(e) {
+								  							console.log("Error" + e);
+								  						}
+								  					});
+								  	        }	
+								    	    else
+								        	{
+								    	    	$('.contactsavebtn').prop("disabled",false);
+								        	}
+										}
+								 }
+						 });
+	  			   	});	
+			// --------------------------------------------------------------------
+			   $('.contacteditbtn').on('click', function(event){
+	  				$('.contactsavebtn').prop("disabled",false);
+		   			$('.contactsavebtn').html("Submit");
+		   			
+	  				let id=$(this).attr("name");
+	  				$('#modalcontactid').val(id);
+					$('#modalcontacttype').val($('.contacttype'+id).text());
+					$('#modalcontactPhone').val($('.phonenumber'+id).text());
+					$('#modalContactemail').val($('.email'+id).text());
+					if($('.primarycontact'+id).val()=='true')
+					{
+						$('#modalcontactprimary').prop("checked",true);	
+					}else
+					{
+						$('#modalcontactprimary').prop("checked",false);
+					}
+					 
+					$('#addNewContact').modal('show');
+	  			  });
+			// --------------------------------------------------------------------
+			
+		
+			// --------------------------------------------------------------------
+  			$('.collapsetogglebtn').click(function(){
+  				 $('#collapsetoggleicon').toggleClass('bx-chevron-down bx-chevron-up'); 
+  			});
+		    // --------------------------------------------------------------------
+			// File uploading 		  
+					 const addNewdocumentForm =document.getElementById("addNewdocument");
+					 const modalFile =document.getElementById("modalFile");
+					 addNewdocumentForm.addEventListener("submit", e =>{
+						 
+						$('.documentsave').prop("disabled",true);
+						$('.documentsave').html('<span class="spinner-border" role="status" aria-hidden="true"></span> Loading...');
+						const endpoint ="fileuploadjson";
+						const formdata= new FormData();
+						//console.log(modalFile.files);
+						formdata.append("File_Attach",modalFile.files[0]);
+						formdata.append("empMasterid",$('#empMasterid').val());
+						formdata.append("Documenttype",$('#modalDocumenttype').val());
+						formdata.append("DocNo",$('#modalDocNo').val());
+						formdata.append("functiontype","Employee");
+						  $.ajax({
+			   					type : "POST",url : endpoint,
+			   					data : formdata,
+			   					contentType: false,
+			   	              processData: false,
+			   					success : function(result) {
+			   						
+			   					tempobj =JSON.parse(JSON.stringify(result));
+			   						
+			   					console.log(tempobj);
+								
+			   					let tempresult = '<div class="cardMaster border p-3 rounded mb-3 filecard'+ tempobj.filesid  +'"><div class="d-flex justify-content-between flex-sm-row flex-column"><div class="card-information">';		                              
+	  							tempresult += '<h6 class="mb-1">'+ tempobj.documentType +'</h6>';
+	  							tempresult += '<span class="card-number">'+ tempobj.documentNo +'</span>';
+	  							if(tempobj.filePath != '')
+  							{
+  								tempresult += '<br/><a href="'+ tempobj.filePath +'" target="_blank">';
+  								if(tempobj.filePath.split(".")[1] == 'pdf')
+									{
+  									tempresult += '<img src="assets/img/icons/misc/pdf.png" alt="PDF image" width="20" class="me-2">';
+									}else
+									{
+										tempresult += '<img src="assets/img/icons/misc/jpg.png" alt="jp image" width="20" class="me-2">';
+									}
+  								tempresult += '<span class="text-body"> ' + tempobj.filePath.split("/")[1].substring(15) + '</span>';
+  								tempresult += '</a>';
+  							}
+	  							tempresult += '</div><div class="d-flex flex-column text-start text-lg-end"><div class="d-flex order-sm-0 order-1 mt-3">';
+	  							
+	  							tempresult += '<button class="btn btn-label-secondary filedeletebtn" name="'+ tempobj.filesid +'"   onClick="filedeleteoperation('+ tempobj.filesid +')"><i class="bx bxs-trash-alt"></i></button></div></div></div></div>';
+	  								
+ 							$('#fileaddidv').before(tempresult);
+ 							
+			   					validationformfilereset();
+			   					},
+			   					error : function(e) {
+			   						console.log("Error" + e);
+			   					}
+			   				}); 
+					 });
+				// --------------------------------------------------------------------
+				
+				$(".additem").click(function() {
+				var name = $(this).attr('name');
+				var labeltext = "";
+				if (name == "addmodalcontacttype") {
+					labeltext = "New Contact Type";
+				}else if(name == "addmodaldocumenttype")
+				{
+					labeltext = "New Document Type";
+				}else if(name == "addmodallanguage")
+				{
+					labeltext = "New Language Type";
+				}else if(name == "addmodalrelation")
+				{
+					labeltext = "New Relation Type";
+				}else if(name == "addmodaldegree")
+				{
+					labeltext = "New Degree";
+				}
+				
+				
+				
+				$('#additemalltxt').text(labeltext);
+				$('#ItemStatusScrollable').modal('toggle');
+
+			});
+
+			$("#additemallsavebtn").click(
+					function() {
+				if ($("#additemall").val() != '') {
+					var name = $('#additemalltxt').text();
+					var labeltext = "";
+					if (name == "New Contact Type") {
+						labeltext = "modalcontacttype";
+					}else if (name == "New Document Type") {
+						labeltext = "modalDocumenttype";
+					}else if (name == "New Language Type") {
+						labeltext = "modallanguage";
+					}else if (name == "New Relation Type") {
+						labeltext = "modalrelation";
+					}else if (name == "New Degree") {
+						labeltext = "modaldegree";
+					}
+					
+					
+					$('.' + labeltext).append(
+							"<option value='"
+									+ $("#additemall").val()
+									+ "'>"
+									+ $("#additemall").val()
+									+ "</option>");
+					//$('.' + labeltext).val($("#additemall").val());
+					$("#additemall").val('');
+					$('#ItemStatusScrollable').modal(
+							'toggle');
+				}
+			});
+				
+				// --------------------------------------------------------------------
+				
+			   	$('#addNewBankDetails').on('submit', function(event){
+			   	 
+		   		if($('#model_acno').val() ==  $('#model_acno_confirm').val())
+  		    	 {
+			   		$('.BankDetailssave').prop("disabled",true);
+	    	  
+		    	    if(event.target.checkValidity()){
+		    	    	$('.BankDetailssave').html('<span class="spinner-border" role="status" aria-hidden="true"></span> Loading...');
+		    	    	var empMasterid=$("#empMasterid").val();
+		    	    	var model_acid =$('#model_branchAccnoid').val();
+		    	    	var model_acno =$('#model_acno').val();
+		    	    	var model_acname =$('#model_acname').val();
+		    	    	var model_bankname =$('#model_bankname').val();
+		    	    	var model_branchname =$('#model_branchname').val();
+		    	    	var model_ifsccode =$('#model_ifsccode').val();
+		    	    	var formData = {
+		  	        			empMasterid: empMasterid,
+		  	        			acid: model_acid,
+		  	        			acno: model_acno,
+		  	        			acname : model_acname,
+		  	        			bankname : model_bankname,
+		  	        			branchname : model_branchname,
+		  	        			ifsccode : model_ifsccode,
+		  	        			functiontype : 'Employee'
+		  				 }
+		    	    	
+		  				 $.ajax({
+		  						type : "POST",url : "Bankaccupdatejson",
+		  						data : formData, success : function(result) {
+		  							var bmobj = JSON.parse(JSON.stringify(result));
+		  							console.log(bmobj);
+		  							$('#Lbl_acno').text(model_acno);
+		  							$('#Lbl_acname').text(model_acname);
+		  							$('#Lbl_bankname').text(model_bankname);
+		  							$('#Lbl_branchname').text(model_branchname);
+		  							$('#Lbl_ifsccode').text(model_ifsccode); 
+		  							validationformbankaccreset();
+		  						},
+		  						error : function(e) {
+		  							console.log("Error" + e);
+		  						}
+		  					});
+		  	        }	
+		    	    else
+		        	{
+		    	    	$('.BankDetailssave').prop("disabled",false);
+		        	}
+	    	    
+  		    	 }else{
+  		   			 Swal.fire({
+				        title: '',
+					        text: 'Account number is not match!',
+					        confirmButtonText: 'Ok',
+					        customClass: {
+					          confirmButton: 'btn btn-primary'
+					        },
+					        buttonsStyling: false
+					      });
+		   		 }
+		   		
+			   	});	
+			// --------------------------------------------------------------------
+			
+	    }); // Jquery
+
+	    function reply_click(id, contacttype, phonenumber, email, primarycontact)
+
+	    {
+	        $('#modalcontactid').val(id);
+	        $('#modalcontacttype').val(contacttype);
+	        $('#modalcontactPhone').val(phonenumber);
+	        $('#modalContactemail').val(email);
+	        if (primarycontact == 'true') {
+	            $('#modalcontactprimary').prop("checked", true);
+	        } else {
+	            $('#modalcontactprimary').prop("checked", false);
+	        }
+
+
+	        $('#addNewContact').modal('show');
+	    }
+
+
+	    function contactdeleteoperation(id) {
+	        Swal.fire({
+	            title: 'Are you sure?',
+	            text: "You won't be able to revert this!",
+	            icon: 'warning',
+	            showCancelButton: true,
+	            confirmButtonText: 'Yes, delete it!',
+	            customClass: {
+	                confirmButton: 'btn btn-primary me-3',
+	                cancelButton: 'btn btn-label-secondary'
+	            },
+	            buttonsStyling: false
+	        }).then(function(result) {
+	            if (result.value) {
+	                var formData = {
+	                    contactid: id,
+	                    functiontype: 'Employee'
+	                }
+	                $.ajax({
+	                    type: "POST",
+	                    url: "Contactdeletejson",
+	                    data: formData,
+	                    success: function(result) {
+	                        $('.card' + id).remove();
+	                        Swal.fire({
+	                            icon: 'success',
+	                            title: 'Deleted!',
+	                            text: 'Contact has been deleted.',
+	                            customClass: {
+	                                confirmButton: 'btn btn-success'
+	                            }
+	                        });
+	                    },
+	                    error: function(e) {
+	                        console.log("Error" + e);
+	                    }, complete: function(e) {
+	    	            	
+	    	            }
+
+	                });
+
+	            }
+	        });
+	    }
+
+	    //------------------------------------------------------    
+	    function filedeleteoperation(id) {
+	        Swal.fire({
+	            title: 'Are you sure?',
+	            text: "You won't be able to revert this!",
+	            icon: 'warning',
+	            showCancelButton: true,
+	            confirmButtonText: 'Yes, delete it!',
+	            customClass: {
+	                confirmButton: 'btn btn-primary me-3',
+	                cancelButton: 'btn btn-label-secondary'
+	            },
+	            buttonsStyling: false
+	        }).then(function(result) {
+	            if (result.value) {
+	                var formData = {
+	                    fileid: id,
+	                    functiontype: 'Employee'
+	                }
+	                $.ajax({
+	                    type: "POST",
+	                    url: "Filedeletejson",
+	                    data: formData,
+	                    success: function(result) {
+	                        $('.filecard' + id).remove();
+	                        Swal.fire({
+	                            icon: 'success',
+	                            title: 'Deleted!',
+	                            text: 'File has been deleted.',
+	                            customClass: {
+	                                confirmButton: 'btn btn-success'
+	                            }
+	                        });
+	                    },
+	                    error: function(e) {
+	                        console.log("Error" + e);
+	                    }, complete: function(e) {
+	    	            	
+	    	            }
+	                });
+
+	            }
+	        });
+	    }
+
+	    //------------------------------------------------------    
+
+	    $('.contactdeletebtn').on('click', function(event) {
+	        let id = $(this).attr("name");
+	        contactdeleteoperation(id);
+	    });
+	    //------------------------------------------------------    
+	    $('.filedeletebtn').on('click', function(event) {
+	        let id = $(this).attr("name");
+	        filedeleteoperation(id);
+	    });
+	    //------------------------------------------------------
+	    // Date Format
+	    const flatpickrFriendly = document.querySelector('#Model_STATED_DATE');
+	    // Human Friendly
+	    if (flatpickrFriendly) {
+	        flatpickrFriendly.flatpickr({
+	            altInput: true,
+	            altFormat: 'F j, Y',
+	            dateFormat: 'Y-m-d'
+	        });
+	    }
+
+
+	    
+
+	    function addlang(e) {
+	        e.preventDefault();
+	        const formData = new FormData(e.target);
+	        var lanid = $('#lanid').val();
+	        var Language = $('#Language').val();
+	        formData.append("empMasterid", $('#empMasterid').val());
+
+	        const obj = {};
+	        for (const [key, value] of formData.entries()) {
+	                obj[key] = value;
+	           	        }
+	        //--------------------------------------
+	        console.log(obj);
+	        var newid = "";
+	        var formDataX = {
+	            langu: obj
+	        }
+	        $.ajax({
+	            type: "POST",
+	            url: "employeelanguagejson",
+
+	            data: formDataX,
+	            success: function(result) {
+	                newid = result;
+	                
+	                //--------------------------------------------------------
+	                  
+	    	     if(newid >0)
+	    	     {
+	    	        if (lanid != '') {
+	    	            $('#language' + lanid).text(Language);
+	    	        
+	    	            if ($('#Read').is(':checked')) {
+	    	                $('#lan_read' + lanid).html('<i class="bx bx-check-circle"></i>');
+	    	            } else {
+	    	                $('#lan_read' + lanid).html('');
+	    	            }
+	    	            if ($('#Write').is(':checked')) {
+	    	                $('#lan_write' + lanid).html('<i class="bx bx-check-circle"></i>');
+	    	            } else {
+	    	                $('#lan_write' + lanid).html('');
+	    	            }
+
+	    	            if ($('#Speak').is(':checked')) {
+	    	                $('#lan_speak' + lanid).html('<i class="bx bx-check-circle"></i>');
+	    	            } else {
+	    	                $('#lan_speak' + lanid).html('');
+	    	            }
+
+
+	    	        } else {
+
+
+	    	            var len = $(`#Languagetable tr:last`).attr('id');
+	    	            len = newid; //Number(len) + 1;
+
+	    	            var data = `<tr id="${len}"><td class="text-nowrap pop_cursor" onclick="editlang(event);" id="language${len}">${Language}</td>`;
+	    	            if ($('#Read').is(':checked')) {
+	    	                data += `<td class="text-center" id="lan_read${len}"><i class="bx bx-check-circle"></i></td>`;
+	    	            } else {
+	    	                data += `<td id="lan_read${len}"></td>`;
+	    	            }
+
+	    	            if ($('#Write').is(':checked')) {
+	    	                data += `<td class="text-center" id="lan_write${len}"><i class="bx bx-check-circle"></i></td>`;
+	    	            } else {
+	    	                data += `<td id="lan_write${len}"></td>`;
+	    	            }
+
+	    	            if ($('#Speak').is(':checked')) {
+	    	                data += `<td class="text-center" id="lan_speak${len}"><i class="bx bx-check-circle"></i></td>`;
+	    	            } else {
+	    	                data += `<td id="lan_speak${len}"></td>`;
+	    	            }
+	    	            data += `</tr>`;
+	    	            $(`#Languagetable tbody`).append(data);
+	    	        }
+	    	     } 
+	            },
+	            error: function(e) {
+	                console.log("Error" + e);
+	            },
+	            complete: function(e) {
+	            	langclose();
+	    	        $(e.target)[0].reset();
+	    	        $('#lanid').val(''); 
+	    	       
+	            }
+
+	        });
+	       
+	        $('#AddLanguages').modal('hide');
+	        
+	    }
+
+	    function addQualificationitem(e) {
+	        e.preventDefault();
+	        var Qualid = $(`#Qualid`).val();
+	        const formData = new FormData(e.target);
+	        formData.append("empMasterid", $('#empMasterid').val());
+
+	        const data = {};
+	        for (const [key, value] of formData.entries()) {
+	            data[key] = value;
+	        }
+	        
+	      //--------------------------------------
+	        console.log(data);
+	        var newid = "";
+	        var formDataX = {
+	            edu: data
+	        }
+	        $.ajax({
+	            type: "POST",
+	            url: "employeeQualificationjson",
+
+	            data: formDataX,
+	            success: function(result) {
+	                newid = result;
+	                
+	                
+	    	        if (Qualid != '') {
+	    	            $("#h6" + Qualid).text(data.Degree+"_"+ data.Major);
+	    	            $("#small" + Qualid).text(data.Qualificationfrom+"_"+data.Qualificationto);
+	    	            $("#span1_" + Qualid).text(data.Institution);
+	    	            $("#span2_" + Qualid).text(data.Percentage);
+	    	        } else {
+	    	            console.log(data);
+	    	            var len = $(`.timelinequf li:first`).attr('id');
+	    	            len = Number(len) + 1;
+
+	    	            $(`.timelinequf`).append(`<li class="timeline-item timeline-item-primary mb-4" onclick="editExper(event);" id='${len}'><span class="timeline-indicator timeline-indicator-primary"><i class="bx bxs-graduation"></i></span><div class="timeline-event"><div class="timeline-header border-bottom mb-3"><h6 class="mb-0 pop_cursor" id="h6${len}">${data.Degree
+	    	    	} _ ${data.Major}</h6><small class="text-muted" id="small${len}">${data.Qualificationfrom} _ ${data.Qualificationto} </small></div><div class="d-flex justify-content-between flex-wrap mb-2"><div><span id="span1_${len}"> ${data.Institution}</span></div><div><span id="span2_${len}">${data.Percentage}</span></div></div></div></li>`);
+	    	        }
+	            },
+	            error: function(e) {
+	                console.log("Error" + e);
+	            }, complete: function(e) {
+	            	 $(e.target)[0].reset();
+	     	        $('#Qualid').val('');
+	     	     
+	            }
+	        });
+	        //--------------------------------------------------------
+	       
+	        $('#AddQualification').modal('hide');
+	       
+
+	    }
+
+	    function editlang(e) {
+	        const parent = $(e.target).parents('tr');
+	        const texts = [];
+	        var innerText;
+	        $(parent).children().each(function() {
+	            innerText = $(this).text();
+	            if ($(this).children().length > 0) {
+	                texts.push('checked');
+	            } else {
+	                texts.push(innerText);
+	            }
+	        })
+	        $('#lanid').val($(parent).attr('id'));
+	        $('#Language').val(texts[0]);
+	        if (texts[1] != '') {
+	            $('#Read').attr('checked', true);
+	        } else {
+	            $('#Read').attr('checked', false);
+	        }
+	        if (texts[2] != '') {
+	            $('#Write').attr('checked', true);
+	        } else {
+	            $('#Write').attr('checked', false);
+	        }
+	        if (texts[3] != '') {
+	            $('#Speak').attr('checked', true);
+	        } else {
+	            $('#Speak').attr('checked', false);
+	        }
+	        $('#AddLanguages').modal('show');
+
+	    }
+
+	    function langclose() {
+	        $('#Read').attr('checked', false);
+	        $('#Speak').attr('checked', false);
+	        $('#Write').attr('checked', false);
+	    }
+
+	    function editExper(e) {
+	        const parent = $(e.target).parents('li');
+	        const texts = [];
+	        texts.push($(parent).children().find('h6').text());
+	        texts.push($(parent).children().find('small').text());
+	        $(parent).children().find('span').each(function() {
+	            texts.push($(this).text());
+	        })
+	        $('#Qualid').val($(parent).attr('id'));
+	        var Degree = texts[0].split('_');
+	        $('#Degree').val(Degree[0].trim());
+	        $('#Major').val(Degree[1].trim());
+	        $('#Institution').val(texts[2].trim());
+	        var date = texts[1].split('_');
+	        Qualificationfrom.setDate(date[0]);
+	        Qualificationto.setDate(date[1]);
+	        $('#Percentage').val(texts[3].trim());
+	        console.log(texts);
+	        $('#AddQualification').modal('show');
+
+	    }
+
+	    function addExper(e) {
+	        e.preventDefault();
+	        var expid = $(`#expid`).val();
+	        const formData = new FormData(e.target);
+	        formData.append("empMasterid", $('#empMasterid').val());
+	        const obj = {};
+	        for (const [key, value] of formData.entries()) {
+	            obj[key] = value;
+	        }
+	        
+	        
+		      //--------------------------------------
+		        console.log(obj);
+		        var newid = "";
+		        var formDataX = {
+		            exp: obj
+		        }
+		        $.ajax({
+		            type: "POST",
+		            url: "employeeExperiencejson",
+
+		            data: formDataX,
+		            success: function(result) {
+		                newid = result;
+		                
+		                if (expid != '') {
+		    	            $('#Exph6' + expid).text(`${obj.Role}`);
+		    	            $('#Expsmall' + expid).text(`${obj.Experiencefrom}_ ${obj.Experiencento}`);
+		    	            $('#Expspan1' + expid).text(`${obj.Company}`);
+		    	            $('#Expspan2' + expid).text(`${obj.Location}`);
+		    	        } else {
+		    	            var len = $(`.timeline-exp li:first`).attr('id');
+		    	            len = newid; //Number(len) + 1;
+
+		    	            $('.timeline-exp').append(`<li class="timeline-item timeline-item-transparent" onclick="editExperience(event);" id="${len}"><spanclass="timeline-point timeline-point-primary"></span><div class="timeline-event"><div class="timeline-header border-bottom mb-3"><h6 class="mb-0 pop_cursor" id="Exph6${len}">${obj.Role}</h6><small class="text-muted" id="Expsmall${len}">${obj.Experiencefrom}_ ${obj.Experiencento}</small></div><div class="d-flex justify-content-between flex-wrap mb-2"><div><span id="Expspan1${len}">${obj.Company}</span></div><div><span class="text-muted" id="Expspan2${len}">${obj.Location}</span></div></div></div></li>`);
+		    	        }
+
+		                
+		            },
+		            error: function(e) {
+		                console.log("Error" + e);
+		            }
+		        });
+		        //--------------------------------------------------------
+		        
+	       
+	        $(e.target)[0].reset();
+	        $(`#expid`).val('');
+	        $('#AddExperience').modal('hide');
+	    }
+
+
+
+	    function editExperience(e) {
+	        const parent = $(e.target).parents('li');
+	        const texts = [];
+	        texts.push($(parent).children().find('h6').text());
+	        texts.push($(parent).children().find('small').text());
+	        $(parent).children().find('span').each(function() {
+	            texts.push($(this).text());
+	        })
+	        $('#expid').val($(parent).attr('id'));
+	        var date = texts[1].split('_');
+	        Experiencefrom.setDate(date[0]);
+	        Experiencento.setDate(date[1]);
+	        $('#Company').val(texts[2].trim());
+	        $('#Location').val(texts[3].trim());
+	        $('#Role').val(texts[0].trim());
+	        $('#AddExperience').modal('show');
+	        console.log(texts);
+	    }
+
+	    function emgAddressdata(e) {
+	        e.preventDefault();
+	        var formData = new FormData(e.target);
+	        formData.append("empMasterid", $('#empMasterid').val());
+
+	        const obj = {};
+	        for (const [key, value] of formData.entries()) {
+	            if (key != '_Emg_InsuranceNominee') {
+	                obj[key] = value;
+	            }
+
+	        }
+	        //--------------------------------------
+	        var newid = "";
+	        var formDataX = {
+	            emgcontact: obj
+	        }
+	        $.ajax({
+	            type: "POST",
+	            url: "employeeemgaddressjson",
+
+	            data: formDataX,
+	            success: function(result) {
+	                newid = result;
+	                
+	                var eid = $('#empEmgContactid').val();
+	    	        if (eid != '') {
+	    	            $('#Emg_Name' + eid).text(`${obj.Emg_Name}`);
+	    	            $('#Emg_Relation' + eid).text(`${obj.Emg_Relation}`);
+	    	            $('#Emg_Street1' + eid).text(`${obj.Emg_Street1}`);
+	    	            $('#Emg_Street2' + eid).text(`${obj.Emg_Street2}`);
+	    	            $('#Emg_Landmark' + eid).text(`${obj.Emg_Landmark}`);
+	    	            $('#Emg_PersonalPhone' + eid).text(`${obj.Emg_PersonalPhone}`);
+	    	            $('#Emg_Village' + eid).text(`${obj.Emg_Village}`);
+	    	            $('#Emg_City' + eid).text(`${obj.Emg_City}`);
+	    	            $('#Emg_State' + eid).text(`${obj.Emg_State}`);
+	    	            $('#Emg_ZIP' + eid).text(`${obj.Emg_ZIP}`);
+	    	            $('#Emg_Country' + eid).text(`${obj.Emg_Country}`);
+	    	            if ($('#InsuranceNominee').is(':checked')) {
+	    	                $('#Emg_Nominee' + eid).html('<br><button type="button" class="btn btn-xs rounded-pill btn-label-dark">Nominee</button>');
+	    	            } else {
+	    	                $('#Emg_Nominee' + eid).html("");
+	    	            }
+	    	        } else {
+	    	            var len = $(`#addNewEmg .editemg:last`).attr('id');
+	    	            len =newid; //  Number(len) + 1;
+
+	    	            var text = `<div class="row editemg" id="${len}"><hr><div class="col-xl-7 col-12"><dl class="row mb-0"><dt class="col-sm-4 mb-3 text-nowrap">Name: <input type="hidden" id="empEmgContactid${len}" value="${newid}"> <input type="hidden" id="Emg_InsuranceNominee${len}" value="true"></dt><dd class="col-sm-8"><span id="Emg_Name${len}" class="pop_cursor" onclick="editemgAddressdata(event);">${obj.Emg_Name}</span>`;
+
+	    	            if ($('#InsuranceNominee').is(':checked')) {
+	    	                text += `<span  id="Emg_Nominee${len}"><br><button type="button" class="btn btn-xs rounded-pill btn-label-dark">Nominee</button></span>`;
+	    	            }
+
+	    	            text += `</dd><dt class="col-sm-4 mb-3 text-nowrap">Relationship:</dt><dd class="col-sm-8" id="Emg_Relation${len}">${obj.Emg_Relation}</dd><dt class="col-sm-4 mb-3 text-nowrap">Address Line1:</dt><dd class="col-sm-8" id="Emg_Street1${len}">${obj.Emg_Street1}</dd><dt class="col-sm-4 mb-3 text-nowrap">Address Line2:</dt><dd class="col-sm-8" id="Emg_Street2${len}">${obj.Emg_Street2}</dd><dt class="col-sm-4 mb-3 text-nowrap">Landmark:</dt><dd class="col-sm-8" id="Emg_Landmark${len}">${obj.Emg_Landmark}</dd></dl></div><div class="col-xl-5 col-12"><dl class="row mb-0"><dt class="col-sm-4 mb-3 text-nowrap">Contact No:</dt><dd class="col-sm-8" id="Emg_PersonalPhone${len}">${obj.Emg_PersonalPhone}</dd><dt class="col-sm-4 mb-3 text-nowrap">Village:</dt><dd class="col-sm-8" id="Emg_Village${len}">${obj.Emg_Village}</dd><dt class="col-sm-4 mb-3 text-nowrap">City:</dt><dd class="col-sm-8" id="Emg_City${len}">${obj.Emg_City}</dd><dt class="col-sm-4 mb-3 text-nowrap">State:</dt><dd class="col-sm-8" id="Emg_State${len}">${obj.Emg_State}</dd><dt class="col-sm-4 mb-3 text-nowrap">Pincode:</dt><dd class="col-sm-8" id="Emg_ZIP${len}">${obj.Emg_ZIP}</dd><dt class="col-sm-4 mb-3 text-nowrap">Country:</dt><dd class="col-sm-8" id="Emg_Country${len}">${obj.Emg_Country}</dd></dl></div></div>`;
+
+	    	            $('#addNewEmg').append(text);
+	    	        }
+	    	        //------------------------------------------
+	            },
+	            error: function(e) {
+	                console.log("Error" + e);
+	            }, complete: function(e) {
+
+	    	        $(e.target)[0].reset();
+	    	        $('#empEmgContactid').val('');
+	    	      	
+	            	
+		         }
+	        });
+	        //--------------------------------------------------------
+	       // console.log(obj);
+	      
+	        $('#addNewEmgAddress').modal('hide');
+
+	    }
+
+	    function editemgAddressdata(e) {
+	        const parent = $(e.target).parents('.editemg');
+	        console.log(parent);
+	        const texts = [];
+	        $('#empEmgContactid').val($(parent).attr('id'));
+	        $(parent).children().find('dd').each(function() {
+	            texts.push($(this).text());
+	        })
+
+	        $(parent).children().find('span').each(function() {
+	            texts.push($(this).text());
+	        })
+
+	        $(parent).children().find('button').each(function() {
+	            texts.push($(this).text());
+	        })
+
+
+	        if (texts.length > 13) {
+	            $('#InsuranceNominee').attr('checked', true);
+	        } else {
+	            $('#InsuranceNominee').attr('checked', false);
+	        }
+	        $('#modalEmg_Name').val(texts[11]);
+	        $('#modalEmg_PersonalPhone').val(texts[5]);
+	        $('#modalEmg_RelationEmg').val(texts[1]);
+	        $('#modalAddressAddress1Emg').val(texts[2]);
+	        $('#modalAddressAddress2Emg').val(texts[3]);
+	        $('#modalAddressLandmarkEmg').val(texts[4]);
+	        $('#modalAddressVillageEmg').val(texts[6]);
+	        $('#modalAddressCityEmg').val(texts[7]);
+	        $('#modalAddressStateEmg').val(texts[8]);
+	        $('#modalAddressZipCodeEmg').val(texts[9]);
+	        $('#modalAddressCountryEmg').val(texts[10]).change();
+	        $('#addNewEmgAddress').modal('show');
+
+	        console.log(texts);
+
+	    }
+	    
+	    
+	 // Phone
+		 const phoneMask = document.querySelector('.phone-number-otp-mask');
+
+	    // Phone Number Input Mask
+	    if (phoneMask) {
+	      new Cleave(phoneMask, {
+	        phone: true,
+	        phoneRegionCode: 'US'
+	      });
+	    }
+	    
+	    // Phone
+		 const phoneMask1 = document.querySelector('.phone-number-otp-mask1');
+
+	    // Phone Number Input Mask
+	    if (phoneMask1) {
+	      new Cleave(phoneMask1, {
+	        phone: true,
+	        phoneRegionCode: 'US'
+	      });
+	    }
+</script>
+</body>
+</html>

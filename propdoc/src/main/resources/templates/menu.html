@@ -1,0 +1,279 @@
+
+<aside id="layout-menu"
+	class="layout-menu menu-vertical menu bg-menu-theme">
+	<div class="app-brand demo">
+		<a href="index" class="app-brand-link"> <span
+			class="app-brand-logo demo"> <img
+				th:src="@{/assets/img/logo/favicon.ico}" />
+		</span> <span class="app-brand-text demo menu-text fw-bold ms-2">RVSLS</span>
+		</a> <a href="javascript:void(0);"
+			class="layout-menu-toggle menu-link text-large ms-auto"> <i
+			class="bx menu-toggle-icon d-none d-xl-block fs-4 align-middle"></i>
+			<i class="bx bx-x d-block d-xl-none bx-sm align-middle"></i>
+		</a>
+	</div>
+
+	<div class="menu-divider mt-0"></div>
+
+	<div class="menu-inner-shadow"></div>
+
+	<ul class="menu-inner py-1">
+		<!-- Dashboards -->
+		<li class="menu-item"
+			th:classappend="${menuactivelist.get('index')} ? ' active ' :'' "><a
+			href="index" class="menu-link"> <i
+				class="menu-icon tf-icons bx bx-home-circle"></i>
+				<div data-i18n="Dashboards">Dashboards</div>
+		</a></li>
+		<li th:if="${dataLoginrole}=='ROLE_ADMIN'" class="menu-item"><a
+			href="rvsemp/" class="menu-link"> <i
+				class="menu-icon tf-icons bx bxs-left-arrow-square"></i>
+				<div data-i18n="Personal Portal">Personal Portal</div>
+		</a></li>
+
+		<!-- Layouts -->
+		<li class="menu-item"
+			th:classappend="${menuactivelist.get('Administration')} ? ' active open' :'' ">
+
+			<a href="javascript:void(0);" class="menu-link menu-toggle"> <i
+				class="menu-icon fa-solid fa-users-gear"></i>
+				<div>Administration</div>
+		</a>
+
+			<ul class="menu-sub">
+				<li class="menu-item"
+					th:classappend="${menuactivelist.get('Branches')} ? ' active' :'' "><a
+					href="branchlist" class="menu-link">
+						<div data-i18n="Branches">Branches</div>
+				</a></li>
+				<li class="menu-item"
+					th:classappend="${menuactivelist.get('AssetManagement')} ? ' active open' :'' "><a
+					href="" class="menu-link menu-toggle">
+						<div data-i18n="Asset Management">Asset Management</div>
+				</a>
+						 <ul class="menu-sub">
+								<li class="menu-item"
+									th:classappend="${menuactivelist.get('Asset List')} ? ' active' :'' "><a
+									href="assetlist" class="menu-link">
+										<div data-i18n="Asset List">Asset List</div>
+								</a></li>
+								<!-- <li class="menu-item"
+									th:classappend="${menuactivelist.get('Check Out')} ? ' active' :'' "><a
+									href="checkout" class="menu-link">
+										<div data-i18n="Check Out">Check Out</div>
+								</a></li> -->
+								<li class="menu-item"
+									th:classappend="${menuactivelist.get('Check In')} ? ' active' :'' "><a
+									href="checkin" class="menu-link">
+										<div data-i18n="Check In">Check In</div>
+								</a></li>
+								<li class="menu-item"
+									th:classappend="${menuactivelist.get('assetaudit')} ? ' active' :'' "><a
+									href="assetaudit" class="menu-link">
+										<div data-i18n="Audit">Audit</div>
+								</a></li>
+								
+							</ul>
+				
+				
+				
+				</li>
+				<li class="menu-item"
+					th:classappend="${menuactivelist.get('HR Management')} ? ' active open ' :'' ">
+
+					<a href="javascript:void(0);" class="menu-link menu-toggle">
+						<div data-i18n="HR Management">HR Management</div>
+				</a>
+					<ul class="menu-sub">
+						<li class="menu-item"
+							th:classappend="${menuactivelist.get('Hire')} ? ' active' :'' "><a
+							href="" class="menu-link">
+								<div data-i18n="Hire">Hire</div>
+						</a></li>
+						<li class="menu-item"
+							th:classappend="${menuactivelist.get('Employee')} ? ' active' :'' "><a
+							href="emplist" class="menu-link">
+								<div data-i18n="Employee">Employee</div>
+						</a></li>
+						<li class="menu-item"
+							th:classappend="${menuactivelist.get('Insurance')} ? ' active' :'' "><a
+							href="insurancelist" class="menu-link">
+								<div data-i18n="Insurance">Insurance</div>
+						</a></li>
+						<li class="menu-item"
+							th:classappend="${menuactivelist.get('Attendance')} ? ' active open' :'' "><a
+							href="javascript:void(0);" class="menu-link menu-toggle">
+								<div data-i18n="Attendance">Attendance</div>
+						</a>
+							<ul class="menu-sub">
+								<li class="menu-item"
+									th:classappend="${menuactivelist.get('Daily Attendance')} ? ' active' :'' "><a
+									href="empattendance" class="menu-link">
+										<div data-i18n="Daily Attendance">Daily Attendance</div>
+								</a></li>
+								<li class="menu-item"
+									th:classappend="${menuactivelist.get('Attendance Report')} ? ' active' :'' "><a
+									href="attendancereport" class="menu-link">
+										<div data-i18n="Attendance Report">Attendance Report</div>
+								</a></li>
+								<li class="menu-item"
+									th:classappend="${menuactivelist.get('Holiday')} ? ' active' :'' "><a
+									href="holidaydefine" class="menu-link">
+										<div data-i18n="Holiday">Holiday</div>
+								</a></li>
+								<li class="menu-item"
+									th:classappend="${menuactivelist.get('Leave Approval')} ? ' active' :'' "><a
+									href="leaveapprove" class="menu-link">
+										<div data-i18n="Leave Approval">Leave Approval</div>
+								</a></li>
+								<li class="menu-item"
+									th:classappend="${menuactivelist.get('Leave History')} ? ' active' :'' "><a
+									href="leavehistory" class="menu-link">
+										<div data-i18n="Leave History">Leave History</div>
+								</a></li>
+							</ul></li>
+						<li class="menu-item"
+							th:classappend="${menuactivelist.get('Payroll')} ? ' active' :'' "><a
+							href="payroll" class="menu-link">
+								<div data-i18n="Payroll">Payroll</div>
+						</a></li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+		<!-- Layouts -->
+		<li class="menu-item"
+			th:classappend="${menuactivelist.get('Contact')} ? ' active open ' :'' "><a
+			href="javascript:void(0);" class="menu-link menu-toggle"> <i
+				class="menu-icon bx bxs-contact"></i>
+				<div>Contact</div>
+		</a>
+
+			<ul class="menu-sub">
+				<li class="menu-item"
+					th:classappend="${menuactivelist.get('People')} ? ' active' :'' "><a
+					href="contactspersonlist" class="menu-link">
+						<div data-i18n="People">People</div>
+				</a></li>
+				<li class="menu-item"
+					th:classappend="${menuactivelist.get('Organization')} ? ' active' :'' "><a
+					href="contactsorganizationslist" class="menu-link">
+						<div data-i18n="Organization">Organization</div>
+				</a></li>
+
+			</ul></li>
+		<li class="menu-item"
+			th:classappend="${menuactivelist.get('WorkItem')} ? ' active open' :'' "><a
+			href="javascript:void(0);" class="menu-link menu-toggle"> <i
+				class="menu-icon tf-icons bx bx-grid"></i>
+				<div data-i18n="Works">Works</div>
+		</a>
+			<ul class="menu-sub">
+				<li class="menu-item"
+					th:classappend="${menuactivelist.get('lead')} ? ' active' :'' "><a
+					href="leadlist" class="menu-link">
+						<div data-i18n="Lead">Lead</div>
+				</a></li>
+				<li class="menu-item"
+					th:classappend="${menuactivelist.get('deal')} ? ' active' :'' "><a
+					href="deallist" class="menu-link">
+						<div data-i18n="Deal">Deal</div>
+				</a></li>
+				<li class="menu-item"
+					th:classappend="${menuactivelist.get('project')} ? ' active' :'' "><a
+					href="projectlist" class="menu-link">
+						<div data-i18n="Project">Project</div>
+				</a></li>
+				<li class="menu-item"
+					th:classappend="${menuactivelist.get('projectplan')} ? ' active' :'' "><a
+					href="projectplan" class="menu-link">
+						<div data-i18n="Project Plan">Project Plan</div>
+				</a></li>
+			
+			</ul></li>
+		<li class="menu-item"
+			th:classappend="${menuactivelist.get('Accounts')} ? ' active open' :'' "><a
+			href="javascript:void(0);" class="menu-link menu-toggle"> <i
+				class="menu-icon tf-icons bx bx-grid"></i>
+				<div data-i18n="Accounts">Accounts</div>
+			</a>
+			<ul class="menu-sub">
+				<li class="menu-item"
+					th:classappend="${menuactivelist.get('accInvoice')} ? ' active' :'' "><a
+					href="accountInvoicels" class="menu-link">
+						<div data-i18n="Invoice">Invoice</div>
+				</a></li>
+				<li class="menu-item"
+					th:classappend="${menuactivelist.get('accReceipt')} ? ' active' :'' "><a
+					href="accountReceiptls" class="menu-link">
+						<div data-i18n="Receipt">Receipt</div>
+				</a></li>
+				<li class="menu-item"
+					th:classappend="${menuactivelist.get('accountsMain')} ? ' active' :'' "><a
+					href="accounts" class="menu-link">
+						<div data-i18n="Accounts">Accounts Report</div>
+				</a></li>
+				<li class="menu-item"
+					th:classappend="${menuactivelist.get('PendingPayments')} ? ' active' :'' "><a
+					href="accountPendingPayments" class="menu-link">
+						<div data-i18n="Pending Payments">Pending Payments</div>
+				</a></li>
+				 <li class="menu-item" th:classappend="${menuactivelist.get('accGeneral')} ? ' active open' :'' ">
+                  <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <div data-i18n="General Voucher">General Voucher</div>
+                  </a>
+                  <ul class="menu-sub">
+                    <li class="menu-item" th:classappend="${menuactivelist.get('accProject Expense')} ? ' active' :'' ">
+                      <a href="accountprojectexpensels" class="menu-link">
+                        <div data-i18n="Project Expense">Project Expense</div>
+                      </a>
+                    </li>
+                    <li class="menu-item" th:classappend="${menuactivelist.get('accGeneral Expense')} ? ' active ' :'' ">
+                      <a href="accountgeneralexpensels" class="menu-link">
+                        <div data-i18n="General Expense">General Expense</div>
+                      </a>
+                    </li>
+                    
+                  </ul>
+                </li>
+                <li class="menu-item" th:classappend="${menuactivelist.get('accGeneralPurchanse')} ? ' active open' :'' ">
+                  <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <div data-i18n="General Purchase">General Purchase</div>
+                  </a>
+                  <ul class="menu-sub">
+                    <li class="menu-item" th:classappend="${menuactivelist.get('accGeneral Purchanse')} ? ' active ' :'' ">
+                      <a href="accountgeneralpurchasels" class="menu-link">
+                        <div data-i18n="General Purchase">General Purchase </div>
+                      </a>
+                    </li>
+                    <li class="menu-item" th:classappend="${menuactivelist.get('accProject Purchanse')} ? ' active' :'' ">
+                      <a href="accountprojectpurchasels" class="menu-link">
+                        <div data-i18n="Project Purchase">Project Purchase</div>
+                      </a>
+                    </li>
+                   
+                    
+                  </ul>
+                </li>
+			</ul></li>
+		<li  class="menu-item"><a
+			href="accounttransfer" class="menu-link" 	th:classappend="${menuactivelist.get('AccountTransfer')} ? ' active' :'' "> <i class='bx bx-transfer' ></i>
+				<div data-i18n="Account Transfer">Account Transfer</div>
+		</a></li>
+		<li  class="menu-item"><a
+			href="accountincome" class="menu-link" 	th:classappend="${menuactivelist.get('Income')} ? ' active' :'' ">   <i class='bx bxs-bank'></i>
+				<div data-i18n="Income">Income</div>
+		</a></li>
+		
+		<li class="menu-item">
+          <a class="menu-link menu-toggle"> 
+           <i class="menu-icon tf-icons bx bx-notepad"></i>Reports</i>
+          </a>
+          <ul class="menu-sub">
+				<li class="menu-item"><a href="reportprojectplan" class="menu-link">
+						Project Status
+				</a></li>
+		</ul>
+        </li>
+	</ul>
+</aside>

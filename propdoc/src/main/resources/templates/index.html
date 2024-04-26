@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+
+<html
+  xmlns:th="http://www.thymeleaf.org" 
+  lang="en"
+  class="light-style layout-navbar-fixed layout-menu-fixed"
+  dir="ltr"
+  data-theme="theme-default"
+  th:data-assets-path="@{/assets/}"
+  data-template="vertical-menu-template"
+  
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+
+    <title>Dashboard</title>
+
+    <meta name="description" content="" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/img/favicon/favicon.ico}" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet" type="text/css"
+    />
+
+    <!-- Icons -->
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/fonts/boxicons.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/fonts/fontawesome.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/fonts/flag-icons.css}" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/css/rtl/core.css}" class="template-customizer-core-css" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/css/rtl/theme-default.css}" class="template-customizer-theme-css" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/libs/typeahead-js/typeahead.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/libs/apex-charts/apex-charts.css}" />
+
+    <!-- Page CSS -->
+
+    <!-- Helpers -->
+    <script th:src="@{/assets/vendor/js/helpers.js}"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
+    <script th:src="@{/assets/vendor/js/template-customizer.js}"></script>
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script th:src="@{/assets/js/config.js}"></script>
+  </head>
+
+  <body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        <!-- Menu -->
+		<div th:insert="menu"></div>
+        <!-- / Menu -->
+
+        <!-- Layout container -->
+        <div class="layout-page">
+          <!-- Navbar -->
+
+       <div th:insert="header"></div>
+
+          <!-- / Navbar -->
+
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <div class="row">
+                <!-- Website Analytics-->
+                <div class="col-lg-6 col-md-12 mb-4">
+                  <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                      <h5 class="card-title mb-0">Website Analytics</h5>
+                      
+                    </div>
+                    <div class="card-body pb-2">
+                      <div class="d-flex justify-content-around align-items-center flex-wrap mb-4">
+                        <div class="user-analytics text-center me-2">
+                          <i class="bx bx-user me-1"></i>
+                          <span>Users</span>
+                          <div class="d-flex align-items-center mt-2">
+                            <div class="chart-report" data-color="success" data-series="35"></div>
+                            <h3 class="mb-0">61K</h3>
+                          </div>
+                        </div>
+                        <div class="sessions-analytics text-center me-2">
+                          <i class="bx bx-pie-chart-alt me-1"></i>
+                          <span>Sessions</span>
+                          <div class="d-flex align-items-center mt-2">
+                            <div class="chart-report" data-color="warning" data-series="76"></div>
+                            <h3 class="mb-0">92K</h3>
+                          </div>
+                        </div>
+                        <div class="bounce-rate-analytics text-center">
+                          <i class="bx bx-trending-up me-1"></i>
+                          <span>Bounce Rate</span>
+                          <div class="d-flex align-items-center mt-2">
+                            <div class="chart-report" data-color="danger" data-series="65"></div>
+                            <h3 class="mb-0">72.6%</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="analyticsBarChart"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Referral, conversion, impression & income charts -->
+                <div class="col-lg-6 col-md-12">
+                  <div class="row">
+                    <!-- Impression Radial Chart-->
+                    <div class="col-sm-6 col-12 mb-4">
+                      <div class="card">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                      <h5 class="card-title mb-0">Lead & Deal By Source</h5>
+                     
+                    </div>
+                        <div class="card-body text-center">
+                          <br/>
+                          	<div id="donutChart"></div>
+                     	  <br/>
+                        </div>
+                      </div>
+                      
+                    </div>
+                    <!-- Referral Chart-->
+                    <div class="col-sm-6 col-12 mb-4">
+                       <div class="card">
+		                    <div class="card-header d-flex align-items-center justify-content-between">
+		                      <h5 class="card-title mb-0">Latest Update</h5>
+		                     
+		                    </div>
+		                    <div class="card-body pb-3">
+		                      <ul class="p-0 m-0">
+		                        <li class="d-flex mb-3">
+		                          <div class="avatar avatar-sm flex-shrink-0 me-3">
+		                            <span class="avatar-initial rounded-circle bg-label-success"
+		                              ><i class="bx bx-dollar"></i
+		                            ></span>
+		                          </div>
+		                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+		                            <div class="me-2">
+		                              <p class="mb-0 lh-1">Total Revenue</p>
+		                              <small class="text-muted">for All branches</small>
+		                            </div>
+		                            <div class="item-progress" id="txt_total_revenue">10k</div>
+		                          </div>
+		                        </li>
+		                        <li class="d-flex mb-3">
+		                          <div class="avatar avatar-sm flex-shrink-0 me-3">
+		                            <span class="avatar-initial rounded-circle bg-label-danger"
+		                              ><i class="bx bx-credit-card"></i
+		                            ></span>
+		                          </div>
+		                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+		                            <div class="me-2">
+		                              <p class="mb-0 lh-1">Total Expenses</p>
+		                              <small class="text-muted">for All branches</small>
+		                            </div>
+		                            <div class="item-progress" id="txt_total_expense">26M</div>
+		                          </div>
+		                        </li>
+		                       
+		                      </ul>
+		                    </div>
+		                  </div>                      
+                    </div>
+                  
+                  </div>
+                </div>
+                <!--/ Referral, conversion, impression & income charts -->
+
+                 <!-- Latest Update -->
+                <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-4">
+                 
+                </div>
+                <!--/ Latest Update -->
+
+                <!-- Profit Report & Registration -->
+                <div class="col-md-12 col-lg-12 col-xl-12">
+                      <div class="row g-4 mb-4">
+		                <div class="col-sm-6 col-xl-3">
+		                  <div class="card">
+		                    <div class="card-body">
+		                      <div class="d-flex align-items-start justify-content-between">
+		                        <div class="content-left">
+		                          <span>Total Billed Value</span>
+		                          <div class="d-flex align-items-end mt-2">
+		                            <h4 class="mb-0 me-2" id="txt_TotalBilledValue">0</h4>
+		                          </div>
+		                          <small></small>
+		                        </div>
+		                        <span class="badge bg-label-primary rounded p-2">
+		                          <i class="bx bx-user bx-sm"></i>
+		                        </span>
+		                      </div>
+		                    </div>
+		                  </div>
+		                </div>
+		                <div class="col-sm-6 col-xl-3">
+		                  <div class="card">
+		                    <div class="card-body">
+		                      <div class="d-flex align-items-start justify-content-between">
+		                        <div class="content-left">
+		                          <span>Total Received</span>
+		                          <div class="d-flex align-items-end mt-2">
+		                            <h4 class="mb-0 me-2 text-success" id="txt_TotalReceived">0</h4>
+		                          </div>
+		                          <small></small>
+		                        </div>
+		                        <span class="badge bg-label-danger rounded p-2">
+		                          <i class="bx bx-user-plus bx-sm"></i>
+		                        </span>
+		                      </div>
+		                    </div>
+		                  </div>
+		                </div>
+		                <div class="col-sm-6 col-xl-3">
+		                  <div class="card">
+		                    <div class="card-body">
+		                      <div class="d-flex align-items-start justify-content-between">
+		                        <div class="content-left">
+		                          <span>Total Outstanding</span>
+		                          <div class="d-flex align-items-end mt-2">
+		                            <h4 class="mb-0 me-2 text-danger" id="txt_TotalOutstanding">0</h4>
+		                          </div>
+		                          <small></small>
+		                        </div>
+		                        <span class="badge bg-label-success rounded p-2">
+		                          <i class="bx bx-group bx-sm"></i>
+		                        </span>
+		                      </div>
+		                    </div>
+		                  </div>
+		                </div>
+		                
+		              </div>
+              <!-- Users List Table -->
+                </div>
+                <!--/ Profit Report & Registration -->
+
+              </div>
+            </div>
+            <!-- / Content -->
+
+            <!-- Footer -->
+            <footer class="content-footer footer bg-footer-theme">
+              
+            </footer>
+            <!-- / Footer -->
+
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+      </div>
+
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
+
+      <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+      <div class="drag-target"></div>
+    </div>
+    <!-- / Layout wrapper -->
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script th:src="@{/assets/vendor/libs/jquery/jquery.js}"></script>
+    <script th:src="@{/assets/vendor/libs/popper/popper.js}"></script>
+    <script th:src="@{/assets/vendor/js/bootstrap.js}"></script>
+    <script th:src="@{/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js}"></script>
+
+    <script th:src="@{/assets/vendor/libs/hammer/hammer.js}"></script>
+
+    <script th:src="@{/assets/vendor/libs/i18n/i18n.js}"></script>
+    <script th:src="@{/assets/vendor/libs/typeahead-js/typeahead.js}"></script>
+
+    <script th:src="@{/assets/vendor/js/menu.js}"></script>
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script th:src="@{/assets/vendor/libs/apex-charts/apexcharts.js}"></script>
+
+    <!-- Main JS -->
+    <script th:src="@{/assets/js/main.js}"></script>
+
+    <!-- Page JS -->
+    <script th:src="@{/assets/js/dashboards-analytics.js}"></script>
+  
+	<script type="text/javascript">
+	$(document).ready(function() { 
+		
+		  let cardColor, headingColor, labelColor, borderColor, legendColor, radialTrackColor;
+
+		  if (isDarkStyle) {
+		    cardColor = config.colors_dark.cardColor;
+		    headingColor = config.colors_dark.headingColor;
+		    labelColor = config.colors_dark.textMuted;
+		    legendColor = config.colors_dark.bodyColor;
+		    borderColor = config.colors_dark.borderColor;
+		    radialTrackColor = '#36435C';
+		  } else {
+		    cardColor = config.colors.cardColor;
+		    headingColor = config.colors.headingColor;
+		    labelColor = config.colors.textMuted;
+		    legendColor = config.colors.bodyColor;
+		    borderColor = config.colors.borderColor;
+		    radialTrackColor = config.colors_label.secondary;
+		  }
+		  
+		 // Color constant
+		  const chartColors = {
+		    column: {
+		      series1: '#826af9',
+		      series2: '#d2b0ff',
+		      bg: '#f8d3ff'
+		    },
+		    donut: {
+		      series1: '#fee802',
+		      series2: '#fd7e14',
+		      series3: '#826bf8',
+		      series4: '#3fd0bd',
+		      series5: '#2b9bf4',
+		    },
+		    area: {
+		      series1: '#29dac7',
+		      series2: '#60f2ca',
+		      series3: '#a5f8cd'
+		    }
+		  };
+		 
+	const dolabels = [];	 
+	const doseries = [];
+	var doinc=0;
+	
+	//--------------------------------------------------------------
+	$.ajax({
+		type : "GET",
+		url : "SourcebyLeadDealdonutchart",
+		success : function(result) {
+			result.forEach(function (obj) {
+				dolabels[doinc]=obj.labels;
+				doseries[doinc]=obj.series;
+				doinc++;
+			});
+		},
+		error : function(e) {
+			console.log("Error" + e);
+			
+		}
+
+	});
+	//-----------------------------------------------------------------	 
+	const donutChartEl = document.querySelector('#donutChart'),
+	  donutChartConfig = {
+	    chart: {
+	      height: 390,
+	      type: 'donut'
+	    },
+	    labels: dolabels,
+	    series: doseries,
+	    colors: [
+	      chartColors.donut.series1,
+	      chartColors.donut.series2,
+	      chartColors.donut.series3,
+	      chartColors.donut.series4,
+	      chartColors.donut.series5
+	    ],
+	    stroke: {
+	      show: false,
+	      curve: 'straight'
+	    },
+	    dataLabels: {
+	      enabled: true,
+	      formatter: function (val, opt) {
+	        return parseInt(val, 10) + '%';
+	      }
+	    },
+	    legend: {
+	      show: true,
+	      position: 'bottom',
+	      markers: { offsetX: -3 },
+	      itemMargin: {
+	        vertical: 3,
+	        horizontal: 10
+	      },
+	      labels: {
+	        colors: legendColor,
+	        useSeriesColors: true
+	      }
+	    },
+	    plotOptions: {
+	      pie: {
+	        donut: {
+	          labels: {
+	            show: true,
+	            name: {
+	              fontSize: '14px',
+	              fontFamily: 'IBM Plex Sans'
+	            },
+	            value: {
+	              fontSize: '12px',
+	              color: legendColor,
+	              fontFamily: 'IBM Plex Sans',
+	              formatter: function (val) {
+	                return parseInt(val , 10) + '%';
+	              }
+	            }
+	          }
+	        }
+	      }
+	    },
+	    responsive: [
+	      {
+	        breakpoint: 992,
+	        options: {
+	          chart: {
+	            height: 380
+	          },
+	          legend: {
+	            position: 'bottom',
+	            labels: {
+	              colors: legendColor,
+	              useSeriesColors: false
+	            }
+	          }
+	        }
+	      },
+	      {
+	        breakpoint: 576,
+	        options: {
+	          chart: {
+	            height: 320
+	          },
+	          plotOptions: {
+	            pie: {
+	              donut: {
+	                labels: {
+	                  show: true,
+	                  name: {
+	                    fontSize: '1.5rem'
+	                  },
+	                  value: {
+	                    fontSize: '1rem'
+	                  },
+	                  total: {
+	                    fontSize: '1.5rem'
+	                  }
+	                }
+	              }
+	            }
+	          },
+	          legend: {
+	            position: 'bottom',
+	            labels: {
+	              colors: legendColor,
+	              useSeriesColors: false
+	            }
+	          }
+	        }
+	      },
+	      {
+	        breakpoint: 420,
+	        options: {
+	          chart: {
+	            height: 280
+	          },
+	          legend: {
+	            show: false
+	          }
+	        }
+	      },
+	      {
+	        breakpoint: 360,
+	        options: {
+	          chart: {
+	            height: 250
+	          },
+	          legend: {
+	            show: false
+	          }
+	        }
+	      }
+	    ]
+	  };
+	if (typeof donutChartEl !== undefined && donutChartEl !== null) {
+	  const donutChart = new ApexCharts(donutChartEl, donutChartConfig);
+	  donutChart.render();
+	}
+	
+
+	 //--------------------------------------------------------------------------------------------
+	/*  const receiptarrlist =[];
+	 const expensearrlist =[];
+	 const xaxisarrlist= [];
+	 */
+	 $.ajax({
+		type : "GET",
+		url : "admindashboardbarchart",
+		success : function(result) {
+			var bmobj = JSON.parse(JSON.stringify(result));
+			
+			var ymax=0;
+			bmobj.receipt.map(d => {
+				ymax = Math.max(ymax, d)
+				});
+			bmobj.expense.map(d => {
+				ymax = Math.max(ymax, d)
+				});
+			
+			//Latest Update 
+			var txt_total_revenue = bmobj.receipt.reduce((a, b) => a + b, 0);
+			var txt_total_expense = bmobj.expense.reduce((a, b) => a + b, 0);
+			$("#txt_total_revenue").text(Math.round(txt_total_revenue/1000)+ 'K');
+			$("#txt_total_expense").text(Math.round(txt_total_expense/1000)+ 'K');
+			//--------/Latest Update
+			
+			 // Analytics - Bar Chart
+			  // --------------------------------------------------------------------
+			  const analyticsBarChartEl = document.querySelector('#analyticsBarChart'),
+			    analyticsBarChartConfig = {
+			      chart: {
+			        height: 250,
+			        type: 'bar',
+			        toolbar: {
+			          show: false
+			        }
+			      },
+			      plotOptions: {
+			        bar: {
+			          horizontal: false,
+			          columnWidth: '40%',
+			          borderRadius: 5,
+			          startingShape: 'rounded'
+			        }
+			      },
+			      dataLabels: {
+			        enabled: false
+			      },
+			      colors: [config.colors.primary, config.colors_label.primary],
+			      series: [
+			        {
+			          name: 'Income',
+			          data: bmobj.receipt
+			        },
+			        {
+			          name: 'Expense',
+			          data: bmobj.expense
+			        }
+			      ],
+			      grid: {
+			        borderColor: borderColor,
+			        padding: {
+			          bottom: -8
+			        }
+			      },
+			      xaxis: {
+			        categories: bmobj.xaxis,
+			        axisBorder: {
+			          show: false
+			        },
+			        axisTicks: {
+			          show: false
+			        },
+			        labels: {
+			          style: {
+			            colors: labelColor
+			          }
+			        }
+			      },
+			      yaxis: {
+			        min: 0,
+			        max: ymax,
+			        tickAmount: 5,
+			        labels: {
+			          style: {
+			            colors: labelColor
+			          }
+			        }
+			      },
+			      legend: {
+			        show: false
+			      },
+			      tooltip: {
+			        y: {
+			          formatter: function (val) {
+			            return 'Rs:' + val ;
+			          }
+			        }
+			      }
+			    };
+			  if (typeof analyticsBarChartEl !== undefined && analyticsBarChartEl !== null) {
+			    const analyticsBarChart = new ApexCharts(analyticsBarChartEl, analyticsBarChartConfig);
+			    analyticsBarChart.render();
+			  }
+			//--------------------------------------------------------------------------------------------
+			
+			
+		},
+		error : function(e) {
+			console.log("Error" + e);
+			
+		}
+
+	});
+
+	
+	});
+	
+	</script>
+</body>	
+</html>

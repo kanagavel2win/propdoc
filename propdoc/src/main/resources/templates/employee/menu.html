@@ -1,0 +1,52 @@
+
+<aside id="layout-menu"
+	class="layout-menu menu-vertical menu bg-menu-theme">
+	<div class="app-brand demo">
+		<a href="index" class="app-brand-link"> <span
+			class="app-brand-logo demo"> <img
+				th:src="@{/assets/img/logo/favicon.ico}" />
+		</span> <span class="app-brand-text demo menu-text fw-bold ms-2">RVSLS</span>
+		</a> <a href="javascript:void(0);"
+			class="layout-menu-toggle menu-link text-large ms-auto"> <i
+			class="bx menu-toggle-icon d-none d-xl-block fs-4 align-middle"></i>
+			<i class="bx bx-x d-block d-xl-none bx-sm align-middle"></i>
+		</a>
+	</div>
+
+	<div class="menu-divider mt-0"></div>
+
+	<div class="menu-inner-shadow"></div>
+
+	<ul class="menu-inner py-1">
+		<!-- Dashboards -->
+		<li class="menu-item"><a href="index" class="menu-link"> <i
+				class="menu-icon tf-icons bx bx-home-circle"></i>
+				<div data-i18n="Dashboards">Dashboards</div>
+		</a></li>
+		<li th:if="${dataLoginrole}=='ROLE_ADMIN'" class="menu-item"><a
+			href="../" class="menu-link"> <i
+				class="menu-icon tf-icons bx bxs-left-arrow-square"></i>
+				<div data-i18n="Admin Portal">Admin Portal</div>
+		</a></li>
+
+		<!-- Layouts -->
+		<li class="menu-item"><a href="javascript:void(0);"
+			class="menu-link menu-toggle"> <i
+				class="menu-icon fa-solid fa-users-gear"></i>
+				<div>Apps</div>
+		</a>
+
+			<ul class="menu-sub">
+				<li class="menu-item"><a href="leaverequest" class="menu-link">
+						<div data-i18n="Leave Request">Leave Request</div>
+				</a></li>
+				<li class="menu-item"><a href="assettransfer" class="menu-link">
+						<div data-i18n="Asset Transfer">Asset Transfer</div>
+				</a></li>
+				
+				
+			</ul></li>
+		<!-- Layouts -->
+
+	</ul>
+</aside>
