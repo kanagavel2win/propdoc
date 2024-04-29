@@ -341,7 +341,7 @@ public class HomeController {
 	@GetMapping("/")
 	public String home(Model theModel, HttpSession session, HttpServletRequest request) {
 		if (logintype("ROLE_EMPLOYEE")) {
-			return "redirect:rvsemp/";
+			return "redirect:propdocemp/";
 		} else if (logintype("ROLE_ADMIN")) {
 			theModel.addAttribute("menuactivelist", menuactivelistobj.getactivemenulist("index"));
 			return "index";
@@ -356,7 +356,7 @@ public class HomeController {
 	public String index(Model theModel) {
 
 		if (logintype("ROLE_EMPLOYEE")) {
-			return "redirect:rvsemp/";
+			return "redirect:propdocemp/";
 		} else if (logintype("ROLE_ADMIN")) {
 			theModel.addAttribute("menuactivelist", menuactivelistobj.getactivemenulist("index"));
 			return "index";
@@ -2382,7 +2382,7 @@ public class HomeController {
 
 			@RequestParam Map<String, String> params, HttpServletRequest request, Model themodel) {
 
-		employeemaster.setEmpid("RVS");
+		employeemaster.setEmpid("PROPDOC");
 
 		// System.out.println("------------------------------------");
 
@@ -2730,6 +2730,7 @@ public class HomeController {
 
 		EmployeeMaster employeemasternew = new EmployeeMaster();
 		employeemasternew = employeeMasterService.findById(id);
+		
 		// DOB MM DD format
 		if (!nullremover(String.valueOf(employeemasternew.getDateofBirth())).equalsIgnoreCase("")) {
 			try {
@@ -5064,7 +5065,7 @@ public class HomeController {
 					if (infoobjgreen.get(infoobjgreen.size() - 1).getJoblocation().equalsIgnoreCase(branch)) {
 
 						if (!calculateTerminatedstatus(obj.getEmpMasterid(), dateforeffectemp)) {
-							result += "<option value='" + obj.getEmpMasterid() + "'>" + obj.getStaffName() + " (RVS000"
+							result += "<option value='" + obj.getEmpMasterid() + "'>" + obj.getStaffName() + " (PROPDOC000"
 									+ obj.getEmpMasterid() + ")</option>";
 						}
 					}
@@ -14009,7 +14010,7 @@ public class HomeController {
 					+ String.format("%02d", currentDate.getMonthValue()) + "-";
 		}
 
-		return "RVSLS " + formate1;
+		return "PROPDOC " + formate1;
 	}
 
 	@ResponseBody
