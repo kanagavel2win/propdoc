@@ -62,7 +62,7 @@ import com.propdoc.springboot.thymeleaf.service.LoginService;
 import com.propdoc.springboot.thymeleaf.service.PaySlipService;
 
 @Controller
-@RequestMapping("/rvsemp")
+@RequestMapping("/propdocemp")
 public class EmployeeController {
 
 	@Autowired

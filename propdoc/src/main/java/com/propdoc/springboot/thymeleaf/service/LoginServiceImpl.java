@@ -52,8 +52,8 @@ public class LoginServiceImpl implements LoginService {
 		Login user =null;
 		empid=empid.toUpperCase();
 		
-		if (empid.contains("RVS")) {
-			empid= String.valueOf(Integer.parseInt(empid.replace("RVS","")));
+		if (empid.contains("PD")) {
+			empid= String.valueOf(Integer.parseInt(empid.replace("PD","")));
 			
 			user = userRepository.findByEmpid(empid);
 

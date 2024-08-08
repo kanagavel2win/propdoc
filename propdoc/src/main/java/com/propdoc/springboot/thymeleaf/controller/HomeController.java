@@ -16,6 +16,7 @@ import java.time.Period;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -3028,8 +3029,11 @@ public class HomeController {
 		for (EmployeeJobinfo stmojb : employeeJobinfoService.findByEmployeeid(empid)) {
 
 			if (!nullremover(String.valueOf(stmojb.getJobreportsto())).equalsIgnoreCase("")) {
-				stmojb.setReportstoname(
-						employeeMasterService.findByLoginId(Integer.parseInt(stmojb.getJobreportsto())).getStaffName());
+				if(!stmojb.getJobreportsto().equalsIgnoreCase("-"))
+				{
+					stmojb.setReportstoname(
+						employeeMasterService.findById(Integer.parseInt(stmojb.getJobreportsto())).getStaffName());
+				}
 			}
 			stmojb.setJoblocation_str(
 					branchMasterService.findById(Integer.parseInt(stmojb.getJoblocation())).getBRANCH_NAME());
@@ -3217,8 +3221,13 @@ public class HomeController {
 		employeeJobinfoService.save(obj);
 
 		if (!nullremover(String.valueOf(params.get("jobreportsto"))).equalsIgnoreCase("")) {
-			obj.setReportstoname(
+			
+			if(!obj.getJobreportsto().equalsIgnoreCase("-"))
+			{
+				obj.setReportstoname(
 					employeeMasterService.findById(Integer.parseInt(params.get("jobreportsto"))).getStaffName());
+			}
+		
 		}
 
 		obj.setJoblocation_str(branchMasterService.findById(Integer.parseInt(obj.getJoblocation())).getBRANCH_NAME());
@@ -3897,6 +3906,178 @@ public class HomeController {
 		return "payroll";
 	}
 
+	public boolean get_eligible_days(EmployeeMaster empobj, String selectedmonth) {
+		int eligible_days = 26;
+
+		//List<EmployeeJobinfo> infoobj = employeeJobinfoService.findByEmployeeid((empobj.getEmpMasterid()));
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+		// -------------------------------------------
+		//** START Issue Fix 1 06_08_24
+		// CurrentStaus
+		List<EmployeeJobempstatus> jobobj = new ArrayList<>();
+		jobobj = employeeJobempstatusService.findByEmployeeid(empobj.getEmpMasterid());
+		Date date = new Date();
+		
+		String Termination_Status= "";
+		String Termination_Date= "";
+		
+		if (jobobj.size() > 0) {
+			List<EmployeeJobempstatus> jobobjjobgreen = jobobj.stream()
+					.filter(c -> dateFormat.format(date).compareTo(c.getEmpstatus_effectivedate().toString()) >= 0)
+					.collect(Collectors.toList());
+			jobobjjobgreen.sort(Comparator.comparing(EmployeeJobempstatus::getEmpstatus_effectivedate));
+			if (jobobjjobgreen.size() > 0) {
+				Termination_Status=	jobobjjobgreen.get(jobobjjobgreen.size() - 1).getEmpstatus_employmentstatus();
+				Termination_Date= 	jobobjjobgreen.get(jobobjjobgreen.size() - 1).getEmpstatus_effectivedate();
+			}
+		}
+		// -------------------------------------------
+		if(Termination_Status.equalsIgnoreCase("Terminated"))
+		{
+			String TerDate_MM_YY[] =Termination_Date.split("-");
+			if(TerDate_MM_YY[0].equalsIgnoreCase(selectedmonth.split("-")[0]))
+			{
+				if(TerDate_MM_YY[1].equalsIgnoreCase(selectedmonth.split("-")[1]))
+				{
+					return true;		
+				}
+			}
+			
+		}
+		// -------------------------------------------
+		//** END Issue Fix 1 06_08_24	
+			
+		List<EmployeeJobHire> hireobj = new ArrayList<>();
+		hireobj = employeeJobHireService.findByEmployeeid(empobj.getEmpMasterid());
+		
+		if (hireobj.size() > 0) {
+			// Issue Fix 1 25_07_24
+			String hireDate_MM_YY[] =hireobj.get(0).getEmployeehiredate().split("-");
+			LocalDate h_date=  LocalDate.parse(hireobj.get(0).getEmployeehiredate());
+			LocalDate dateforeffectemp = LocalDate.parse(selectedmonth + "-01");
+			
+			Period period = Period.between(dateforeffectemp, h_date);
+			int years = Math.abs(period.getYears());
+			int months = Math.abs(period.getMonths());
+			int days = Math.abs(period.getDays());
+
+			String timeline = "";
+
+			if (years > 0) {
+				return false;
+			}
+			if (months > 0) {
+				return false;
+			}
+			if (days > 0) {
+				//** START Issue Fix 1 25_07_24
+				if(hireDate_MM_YY[1].equalsIgnoreCase(selectedmonth.split("-")[1] ))
+				{
+					return true;
+				}else
+				{
+					return false;
+				}
+				//** END Issue Fix 1 25_07_24
+			}
+		}
+		//------------------------------------------------
+		
+
+		return false;
+
+	}
+	
+	private long cal_sundays(LocalDate startDate, LocalDate endDate) {
+		
+		LocalDate firstSunday = startDate.with(DayOfWeek.SUNDAY);
+        if (firstSunday.isBefore(startDate)) {
+            firstSunday = firstSunday.plusWeeks(1);
+        }
+
+        long daysBetween = ChronoUnit.DAYS.between(firstSunday, endDate);
+        return daysBetween / 7 + 1;
+		
+	}
+	public int get_notavailable_days(EmployeeMaster empobj, String selectedmonth) {
+		
+
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+		// -------------------------------------------
+		// CurrentStaus
+		List<EmployeeJobempstatus> jobobj = new ArrayList<>();
+		jobobj = employeeJobempstatusService.findByEmployeeid(empobj.getEmpMasterid());
+		Date date = new Date();
+		
+		String Termination_Status= "";
+		String Termination_Date= "";
+		
+		if (jobobj.size() > 0) {
+			List<EmployeeJobempstatus> jobobjjobgreen = jobobj.stream()
+					.filter(c -> dateFormat.format(date).compareTo(c.getEmpstatus_effectivedate().toString()) >= 0)
+					.collect(Collectors.toList());
+			jobobjjobgreen.sort(Comparator.comparing(EmployeeJobempstatus::getEmpstatus_effectivedate));
+			if (jobobjjobgreen.size() > 0) {
+				Termination_Status=	jobobjjobgreen.get(jobobjjobgreen.size() - 1).getEmpstatus_employmentstatus();
+				Termination_Date= 	jobobjjobgreen.get(jobobjjobgreen.size() - 1).getEmpstatus_effectivedate();
+			}
+		}
+		// -------------------------------------------
+		if(Termination_Status.equalsIgnoreCase("Terminated"))
+		{
+			String TerDate_MM_YY[] =Termination_Date.split("-");
+			if(TerDate_MM_YY[0].equalsIgnoreCase(selectedmonth.split("-")[0]))
+			{
+				if(TerDate_MM_YY[1].equalsIgnoreCase(selectedmonth.split("-")[1]))
+				{
+					LocalDate terminationDate =  LocalDate.parse(Termination_Date);
+					LocalDate lastDayOfMonth = LocalDate.parse(selectedmonth + "-01", DateTimeFormatter.ofPattern("yyyy-M-dd"))
+							.with(TemporalAdjusters.lastDayOfMonth());
+					
+					Period period = Period.between(terminationDate, lastDayOfMonth);
+					int sundayCount = (int) cal_sundays(terminationDate, lastDayOfMonth);
+					return period.getDays()+1-sundayCount;		
+				}
+			}
+			
+		}
+		// -------------------------------------------
+		List<EmployeeJobHire> hireobj = new ArrayList<>();
+		hireobj = employeeJobHireService.findByEmployeeid(empobj.getEmpMasterid());
+		
+		if (hireobj.size() > 0) {
+			// Issue Fix 1 25_07_24
+			String hireDate_MM_YY[] =hireobj.get(0).getEmployeehiredate().split("-");
+			LocalDate h_date=  LocalDate.parse(hireobj.get(0).getEmployeehiredate());
+			LocalDate dateforeffectemp = LocalDate.parse(selectedmonth + "-01");
+			
+			Period period = Period.between(dateforeffectemp, h_date);
+			int years = Math.abs(period.getYears());
+			int months = Math.abs(period.getMonths());
+			int days = Math.abs(period.getDays());
+
+			String timeline = "";
+
+			
+			if (days > 0 && years < 1 && months <1) {
+				if(hireDate_MM_YY[1].equalsIgnoreCase(selectedmonth.split("-")[1] ))
+				{
+					int sundayCount = (int) cal_sundays(dateforeffectemp, h_date);
+					return days-sundayCount;
+				}
+			}
+		}
+		//------------------------------------------------
+		
+
+		return 0;
+
+	}
+
+	
+
 	@PostMapping("payroll")
 	public String payrollpost(@RequestParam(name = "month") String selectedmonth,
 			@RequestParam(name = "branch") int branch_masterid, Model themodel,
@@ -4032,8 +4213,9 @@ public class HomeController {
 			double Monthlyincentives = 0.00;
 			double net = 0.00;
 			// ----------------------------------------------------
+			EmployeeMaster empobj = employeeMasterService.findById(employeeid);
 
-			Advance = employeeMasterService.findById(employeeid).getEmployeeAdvance().stream()
+			Advance = empobj.getEmployeeAdvance().stream()
 					.mapToDouble(EmployeeAdvance::getAmount).sum();
 			Advance = Advance - employeeAdvanceRepaymentService.findByEmployeeid(employeeid).stream()
 					.mapToDouble(EmployeeAdvanceRepayment::getAmount).sum();
@@ -4051,7 +4233,21 @@ public class HomeController {
 
 			Absent = A;
 			// WorkingDays = TotalWWorkingDays + Totalholidays;
-			WorkingDays = 26 - (A - HOLIDAYA - SUNDAYA) - (HL - HOLIDAYHL - SUNDAYHL);
+			if(get_eligible_days(empobj, selectedmonth))// check join month is same
+			{
+				// Working day is less than a week consider actual working day
+				if(TotalWWorkingDays<=6){
+					WorkingDays=TotalWWorkingDays;	
+				}else
+				{
+					WorkingDays = 26 -get_notavailable_days(empobj, selectedmonth)- (A - HOLIDAYA - SUNDAYA) 
+							- (HL - HOLIDAYHL - SUNDAYHL);
+				}
+			}
+			else
+			{
+				WorkingDays = 26 - (A - HOLIDAYA - SUNDAYA) - (HL - HOLIDAYHL - SUNDAYHL);
+			}
 
 			if (WorkingDays < 1) {
 				WorkingDays = 0;
@@ -4258,9 +4454,16 @@ public class HomeController {
 		// -------------------------------------------------------
 		// Get Attendance details for particular month
 		// -------------------------------------------------------
-		List<Map<String, Object>> atm = attendanceMasterService.getatttendancereport(monthstr, prdenddate,
-				Integer.parseInt(branchid));
-
+		List<Map<String, Object>> atm = null;
+		
+		if(branchid.equalsIgnoreCase("all"))
+		{
+			atm = attendanceMasterService.getatttendancereport_AllBranch(monthstr, prdenddate);
+		}else
+		{
+			atm = attendanceMasterService.getatttendancereport(monthstr, prdenddate,
+					Integer.parseInt(branchid));
+		}
 		ArrayList<String> reportarr = new ArrayList<String>();
 
 		atm.forEach(rowMap -> {
@@ -4302,7 +4505,7 @@ public class HomeController {
 					infoobjgreen.sort(Comparator.comparing(EmployeeJobinfo::getJobeffectivedate));
 
 					if (infoobjgreen.size() > 0) {
-						if (infoobjgreen.get(infoobjgreen.size() - 1).getJoblocation().equalsIgnoreCase(branchid)) {
+						if (infoobjgreen.get(infoobjgreen.size() - 1).getJoblocation().equalsIgnoreCase(branchid) || branchid.equalsIgnoreCase("all")) {
 
 							if (!calculateTerminatedstatus(Integer.parseInt(rowMap.get("employeeid").toString()),
 									dateforeffectemp)) {
@@ -10678,7 +10881,13 @@ public class HomeController {
 					long NoofdaysRemaining_fromNow = new Date().getTime()
 							- new SimpleDateFormat("yyyy-MM-dd").parse(projectMaster.getStartdate()).getTime();
 
-					NoofdaysRemaining_fromNow = NoofdaysRemaining_fromNow / (1000 * 60 * 60 * 24);
+					if(NoofdaysRemaining_fromNow != 0)
+					{
+						NoofdaysRemaining_fromNow = NoofdaysRemaining_fromNow / (1000 * 60 * 60 * 24);
+					}else
+					{
+						NoofdaysRemaining_fromNow =0;	
+					}
 
 					int NoofdaysRemaining_fromNow_per = Math.round((NoofdaysRemaining_fromNow * 100 / totaldays));
 

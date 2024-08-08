@@ -160,7 +160,7 @@
 }
 
 td.sunday {
-	
+	background: #FFE4E1;
 }
 
 .holiday {
@@ -478,7 +478,7 @@ $(document).ready(function () {
 	//--------------------------------------------------------
 	$("#branch").val("[[${branchid}]]").change();
 	var month="[[${monthstr}]]";
-
+	var printCounter =0;
 	if(month.length==6)
 	{
 		var arr=month.split("-");
@@ -490,7 +490,7 @@ $(document).ready(function () {
 	
 	
 	var table = $('#empattendancereport').DataTable({
-		dom: 'Bfrtip',
+		dom: 'lfrtip',
         lengthChange: true,
         buttons: [ 'copy','excel',
         	{
@@ -506,12 +506,13 @@ $(document).ready(function () {
 	            messageTop: function () {
 	                printCounter++;
 	
-	                if ( printCounter === 1 ) {
+	                return "";
+	                /* if ( printCounter === 1 ) {
 	                    return 'This is the first time you have printed this document.';
 	                }
 	                else {
 	                    return 'You have printed this document '+printCounter+' times';
-	                }
+	                }*/
 	            },
 	            messageBottom: null
 	        }],
